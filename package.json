@@ -1,0 +1,14 @@
+{
+  "name": "crm-ecomm-2026",
+  "version": "1.0.0",
+  "description": "Centro de Control CRM E-Commerce COD Venezuela (Cloudflare Worker)",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^3.80.0"
+  }
+}
