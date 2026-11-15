@@ -130,7 +130,7 @@ export default {
     return new Response(htmlDashboard, {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'public, max-age=60'
+        'Cache-Control': 'no-cache, no-store, must-revalidate'
       }
     });
   }
