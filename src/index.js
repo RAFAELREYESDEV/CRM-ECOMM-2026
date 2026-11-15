@@ -84,7 +84,49 @@ export default {
       });
     }
 
-    // 5. Dashboard HTML Completo
+    // 5. Billetera y Saldo Dropanas en Vivo por API
+    if (path === '/api/wallet') {
+      try {
+        const resp = await fetch('https://app.dropanas.com/api/v1/wallet', {
+          headers: {
+            'Authorization': 'Bearer live_sk_i9tJdb1OCeZZ3ArVM7YPZhy4FY4lofzPkghmH0gTNJnYUg2RJlgd',
+            'Accept': 'application/json',
+            'User-Agent': 'Cloudflare-Worker-CRM'
+          }
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          return new Response(JSON.stringify(data), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        }
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: corsHeaders });
+      }
+    }
+
+    // 5.1 Historial Oficial de Transacciones y Retiros Dropanas en Vivo
+    if (path === '/api/wallet/transactions') {
+      try {
+        const resp = await fetch('https://app.dropanas.com/api/v1/wallet/transactions', {
+          headers: {
+            'Authorization': 'Bearer live_sk_i9tJdb1OCeZZ3ArVM7YPZhy4FY4lofzPkghmH0gTNJnYUg2RJlgd',
+            'Accept': 'application/json',
+            'User-Agent': 'Cloudflare-Worker-CRM'
+          }
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          return new Response(JSON.stringify(data), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        }
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: corsHeaders });
+      }
+    }
+
+    // 6. Dashboard HTML Completo
     return new Response(htmlDashboard, {
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
