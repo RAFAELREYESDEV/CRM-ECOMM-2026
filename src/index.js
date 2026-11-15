@@ -40,11 +40,34 @@ export default {
       });
     }
 
-    // 2. Leads que no han comprado todavía (16 leads depurados)
+    // 2. Leads que no han comprado todavía (18 leads depurados con teléfonos de Supabase)
     if (path === '/api/leads-recuperar') {
       return new Response(JSON.stringify(initialLeads), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       });
+    }
+
+    // 2.1 Conexión directa a Supabase Viking Spicy en vivo
+    if (path === '/api/supabase-leads') {
+      try {
+        const resp = await fetch('https://yltjezxhnwmtzuraquhc.supabase.co/rest/v1/gummies_viking_ecomm?select=*&order=id.desc', {
+          headers: {
+            'apikey': 'sb_publishable_oNHuXs7lM2VnOzqazVyuNw_tu7RQi97',
+            'Authorization': 'Bearer sb_publishable_oNHuXs7lM2VnOzqazVyuNw_tu7RQi97'
+          }
+        });
+        if (resp.ok) {
+          const raw = await resp.json();
+          return new Response(JSON.stringify(raw), {
+            headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+          });
+        }
+      } catch (e) {
+        return new Response(JSON.stringify({ error: e.message }), {
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
     }
 
     // 3. Envíos activos en Dropanas (18 pedidos)
