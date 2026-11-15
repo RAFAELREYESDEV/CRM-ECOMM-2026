@@ -1,117 +1,235 @@
 export const htmlDashboard = `<!DOCTYPE html>
-<html lang="es" class="dark">
+<html lang="es" class="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Centro de Control | E-Commerce COD Venezuela</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Gummies Viking | Centro de Control E-Commerce COD</title>
+  <!-- Google Fonts: Inter & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root {
-      --bg: #090d16;
-      --card: #111827;
-      --border: #1f2937;
-      --gold: #f59e0b;
-      --emerald: #10b981;
-      --blue: #3b82f6;
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'Inter', 'system-ui', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace']
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              100: '#d1fae5',
+              500: '#10b981',
+              600: '#059669',
+              700: '#047857',
+            }
+          }
+        }
+      }
     }
-    body { background-color: var(--bg); color: #f3f4f6; font-family: system-ui, -apple-system, sans-serif; }
-    .badge-taquilla { background: #064e3b; color: #34d399; border: 1px solid #059669; }
-    .badge-camino { background: #1e3a5f; color: #60a5fa; border: 1px solid #2563eb; }
-    .badge-dropanas { background: #451a03; color: #fbbf24; border: 1px solid #b45309; }
-    .badge-pagado { background: #31104b; color: #c084fc; border: 1px solid #9333ea; }
-    .tab-active { background: #1f2937; color: #ffffff; border-bottom: 2px solid var(--gold); }
-    .lead-contactado { opacity: 0.6; filter: grayscale(0.5); }
+  </script>
+  <style>
+    body {
+      background-color: #F8FAFC;
+      color: #0F172A;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    /* Estilos de badges limpios estilo Dashboard Blanco */
+    .badge-taquilla { background: #ECFDF5; color: #047857; border: 1px solid #A7F3D0; }
+    .badge-camino { background: #EFF6FF; color: #1D4ED8; border: 1px solid #BFDBFE; }
+    .badge-dropanas { background: #FFFBEB; color: #B45309; border: 1px solid #FDE68A; }
+    .badge-pagado { background: #FAF5FF; color: #7E22CE; border: 1px solid #E9D5FF; }
+    .badge-urgente { background: #FEF2F2; color: #B91C1C; border: 1px solid #FECACA; }
+    
+    .tab-btn-active {
+      background-color: #10B981;
+      color: #FFFFFF !important;
+      font-weight: 700;
+      box-shadow: 0 4px 14px 0 rgba(16, 185, 129, 0.25);
+    }
+    .lead-contactado {
+      opacity: 0.55;
+      filter: grayscale(0.6);
+    }
+    /* Sombra suave de tarjeta corporativa */
+    .card-clean {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 1.25rem;
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .card-clean:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 10px 25px -3px rgba(15, 23, 42, 0.06);
+    }
+    /* Scrollbar estilizada */
+    ::-webkit-scrollbar { height: 6px; width: 6px; }
+    ::-webkit-scrollbar-track { background: #F1F5F9; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 9999px; }
   </style>
 </head>
-<body class="min-h-screen pb-16">
+<body class="min-h-screen pb-28 md:pb-16 antialiased selection:bg-brand-500 selection:text-white">
 
-  <!-- TOP BAR -->
-  <header class="border-b border-gray-800 bg-gray-900/70 backdrop-blur sticky top-0 z-50 px-4 md:px-8 py-3.5 flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-xl shadow-inner">🏛️</div>
-      <div>
-        <h1 class="font-extrabold text-sm tracking-wide text-gray-100 flex items-center gap-2">
-          CENTRO DE CONTROL COD VENEZUELA
-          <span class="text-[10px] bg-amber-500/20 text-amber-300 font-mono px-2 py-0.5 rounded border border-amber-500/30">Viking 2.0</span>
-        </h1>
-        <p class="text-xs text-gray-400">Recuperación de Leads · Despachos Dropanas · Envíos Tealca</p>
+  <!-- TOP BAR BLANCA ELEGANTE -->
+  <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200/80 px-4 md:px-8 py-3.5 transition-all">
+    <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+      
+      <!-- Brand & Status -->
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-brand-600 to-emerald-400 flex items-center justify-center text-white font-extrabold shadow-md shadow-brand-500/20 text-lg">
+          V
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-extrabold text-base md:text-lg tracking-tight text-slate-900 leading-none">
+              Gummies Viking
+            </h1>
+            <span class="inline-flex items-center gap-1 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200/80">
+              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> COD Vnzla
+            </span>
+          </div>
+          <p class="text-xs text-slate-500 font-medium mt-0.5">Control Central · Dropshipping Dropanas & Tealca</p>
+        </div>
       </div>
-    </div>
-    <div class="flex items-center gap-4 text-xs">
-      <div class="hidden sm:flex items-center gap-2 bg-gray-800/80 px-3.5 py-1.5 rounded-lg border border-gray-700">
-        <span class="text-gray-400">Tasa Oficial BCV:</span>
-        <span class="font-bold text-amber-400 font-mono text-sm" id="bcv-val">Bs 911.62</span>
+
+      <!-- Quick Stats & Actions -->
+      <div class="flex items-center gap-2 sm:gap-4">
+        <!-- Tasa BCV Pill -->
+        <div class="flex items-center gap-2 bg-slate-50 hover:bg-slate-100/80 border border-slate-200/80 px-3.5 py-1.5 rounded-xl transition">
+          <span class="text-xs font-semibold text-slate-500 hidden sm:inline">BCV Oficial:</span>
+          <span class="text-xs sm:text-sm font-extrabold text-slate-900 font-mono tracking-tight" id="bcv-val">Bs 911.62</span>
+        </div>
+
+        <!-- Reload Button -->
+        <button onclick="recargarTodo()" class="inline-flex items-center justify-center gap-1.5 bg-slate-900 hover:bg-slate-800 text-white px-3.5 py-2 rounded-xl text-xs font-bold transition shadow-sm active:scale-95" title="Sincronizar datos en vivo">
+          <span class="text-sm">↻</span>
+          <span class="hidden sm:inline">Actualizar</span>
+        </button>
+
+        <!-- User Profile Pill -->
+        <div class="hidden lg:flex items-center gap-2.5 pl-2 border-l border-slate-200">
+          <div class="w-8 h-8 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center font-bold text-xs text-slate-700">
+            RA
+          </div>
+          <div class="text-left text-xs leading-tight">
+            <div class="font-bold text-slate-800">Rafael Andrés</div>
+            <div class="text-[10px] text-slate-400 font-medium">Store #21017</div>
+          </div>
+        </div>
       </div>
-      <button onclick="recargarTodo()" class="bg-gray-800 hover:bg-gray-700 text-gray-200 font-semibold px-3.5 py-1.5 rounded-lg border border-gray-700 flex items-center gap-1.5 transition active:scale-95">
-        <span class="text-amber-400 font-bold">↻</span> Recargar
-      </button>
+
     </div>
   </header>
 
-  <main class="max-w-6xl mx-auto px-4 md:px-8 mt-6 space-y-6">
+  <!-- MAIN WRAPPER -->
+  <main class="max-w-7xl mx-auto px-4 md:px-8 mt-6 space-y-6">
 
-    <!-- KPI CARDS: FOCO TOTAL EN VENTAS Y RECUPERACIÓN -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      
-      <!-- 1. Dinero en Leads por Recuperar (EL FOCO PRINCIPAL) -->
-      <div class="bg-gradient-to-br from-red-950/40 via-gray-900 to-gray-900 border border-red-500/30 rounded-xl p-5 shadow-sm relative overflow-hidden">
-        <div class="absolute -right-3 -top-3 w-16 h-16 bg-red-500/10 rounded-full blur-xl pointer-events-none"></div>
-        <div class="text-[11px] font-bold text-red-400 uppercase tracking-wider mb-1 flex items-center gap-1">
-          <span>🔥</span> Dinero por Atacar / Cerrar
+    <!-- KPI CARDS HERO: INSPIRADO EN LA PLANTILLA BLANCA -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
+
+      <!-- Card 1: Dinero en Leads por Cerrar (Foco #1 de Ventas) -->
+      <div class="card-clean p-4 md:p-5 relative overflow-hidden flex flex-col justify-between">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] md:text-xs font-bold uppercase tracking-wider text-rose-600 flex items-center gap-1">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-ping"></span>
+            Por Recuperar
+          </span>
+          <span class="text-[10px] md:text-xs px-2 py-0.5 rounded-full font-bold bg-rose-50 text-rose-700 border border-rose-200/60" id="kpi-recuperar-count">
+            18 leads
+          </span>
         </div>
-        <div class="text-3xl font-extrabold text-red-300" id="kpi-recuperar-usd">~$588 USD</div>
-        <div class="text-xs text-gray-400 mt-1.5 flex items-center justify-between">
-          <span class="text-red-300/80 font-medium" id="kpi-recuperar-count">19 clientes tibios</span>
-          <span class="text-gray-400">Sin orden en Dropanas</span>
+        <div class="my-2 md:my-3">
+          <div class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight" id="kpi-recuperar-usd">~$517 USD</div>
+          <div class="text-[11px] text-slate-500 font-medium mt-0.5">Ventas tibias sin cédula</div>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+          <div class="bg-rose-500 h-1.5 rounded-full" style="width: 75%"></div>
         </div>
       </div>
 
-      <!-- 2. Facturación en Sistema Dropanas -->
-      <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 shadow-sm">
-        <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">📦 Facturación Dropanas Activa</div>
-        <div class="text-3xl font-extrabold text-amber-400" id="kpi-facturacion">$591.00 USD</div>
-        <div class="text-xs text-gray-400 mt-1.5 flex items-center justify-between">
-          <span id="kpi-facturacion-bs">Bs 538,767.42</span>
-          <span class="text-gray-300 font-semibold" id="kpi-count-activos">18 pedidos</span>
+      <!-- Card 2: Facturación Activa en Dropanas -->
+      <div class="card-clean p-4 md:p-5 flex flex-col justify-between">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] md:text-xs font-bold uppercase tracking-wider text-slate-500">
+            📦 Facturación Activa
+          </span>
+          <span class="text-[10px] md:text-xs px-2 py-0.5 rounded-full font-bold bg-slate-100 text-slate-700" id="kpi-count-activos">
+            18 pedidos
+          </span>
+        </div>
+        <div class="my-2 md:my-3">
+          <div class="text-2xl md:text-3xl font-extrabold text-slate-900 tracking-tight" id="kpi-facturacion">$591.83 USD</div>
+          <div class="text-[11px] text-slate-500 font-mono font-medium mt-0.5" id="kpi-facturacion-bs">Bs 539,524.06</div>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+          <div class="bg-brand-500 h-1.5 rounded-full" style="width: 100%"></div>
         </div>
       </div>
 
-      <!-- 3. Ganancia Neta Limpia -->
-      <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 shadow-sm">
-        <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">💰 Ganancia Neta Limpia</div>
-        <div class="text-3xl font-extrabold text-emerald-400" id="kpi-ganancia">+$314.60 USD</div>
-        <div class="text-xs text-gray-400 mt-1.5 flex items-center justify-between">
-          <span>Margen: <strong class="text-emerald-300">53.2%</strong></span>
-          <span class="text-gray-400">Costos: $276.40</span>
+      <!-- Card 3: Ganancia Neta Limpia -->
+      <div class="card-clean p-4 md:p-5 flex flex-col justify-between">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] md:text-xs font-bold uppercase tracking-wider text-brand-600">
+            💰 Ganancia Billetera
+          </span>
+          <span class="text-[10px] md:text-xs px-2 py-0.5 rounded-full font-bold bg-emerald-50 text-emerald-700 border border-emerald-200/60">
+            53.9% Margen
+          </span>
+        </div>
+        <div class="my-2 md:my-3">
+          <div class="text-2xl md:text-3xl font-extrabold text-brand-600 tracking-tight" id="kpi-ganancia">+$318.98 USD</div>
+          <div class="text-[11px] text-slate-500 font-medium mt-0.5">Costos Dropanas: $272.85</div>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+          <div class="bg-emerald-500 h-1.5 rounded-full" style="width: 54%"></div>
         </div>
       </div>
 
-      <!-- 4. Oxígeno Meta Ads -->
-      <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 shadow-sm">
-        <div class="text-[11px] font-bold text-gray-400 uppercase tracking-wider mb-1">🛡️ Oxígeno Meta Ads</div>
-        <div class="text-3xl font-extrabold text-blue-400" id="kpi-oxigeno">7.8 Días</div>
-        <div class="text-xs text-gray-400 mt-1.5 flex items-center justify-between">
-          <span>Gasto: $79.09</span>
-          <span class="text-amber-400">Umbral: $58.00</span>
+      <!-- Card 4: Retiro & Flujo de Caja -->
+      <div class="card-clean p-4 md:p-5 flex flex-col justify-between">
+        <div class="flex items-center justify-between gap-2">
+          <span class="text-[11px] md:text-xs font-bold uppercase tracking-wider text-blue-600">
+            🏦 Retiro en Tránsito
+          </span>
+          <span class="text-[10px] md:text-xs px-2 py-0.5 rounded-full font-bold bg-blue-50 text-blue-700 border border-blue-200/60">
+            #3835
+          </span>
+        </div>
+        <div class="my-2 md:my-3">
+          <div class="text-2xl md:text-3xl font-extrabold text-slate-900 font-mono tracking-tight" id="kpi-retiro-val">Bs 11,529.73</div>
+          <div class="text-[11px] text-amber-600 font-semibold mt-0.5">🟡 Pendiente acreditación banco</div>
+        </div>
+        <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
+          <div class="bg-blue-500 h-1.5 rounded-full" style="width: 85%"></div>
         </div>
       </div>
+
     </div>
 
-    <!-- PESTAÑAS: 1. LEADS POR ATACAR (DEFAULT) | 2. VENTAS POR MONTAR | 3. ENVÍOS ACTIVOS -->
-    <div class="flex border-b border-gray-800 gap-2 overflow-x-auto">
-      <button id="tab-btn-leads" onclick="cambiarVista('leads')" class="tab-active px-5 py-3 font-bold text-sm rounded-t-lg transition flex items-center gap-2 whitespace-nowrap">
-        <span>🔥</span> Leads que No Han Comprado Todavía (Por Atacar)
-        <span class="bg-red-500/20 text-red-300 text-xs px-2 py-0.5 rounded-full border border-red-500/30 font-bold" id="badge-total-leads">19</span>
+    <!-- PESTAÑAS SEGMENTADAS (ESTILO REAL ESTATE MODERNO) -->
+    <div class="bg-white p-1.5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center gap-1.5 overflow-x-auto">
+      <button id="tab-btn-leads" onclick="cambiarVista('leads')" class="tab-btn-active px-4 py-2.5 rounded-xl font-bold text-xs md:text-sm transition-all flex items-center gap-2 whitespace-nowrap active:scale-95">
+        <span>🔥</span> Leads por Atacar
+        <span class="bg-white/20 text-white text-[11px] px-2 py-0.5 rounded-full font-bold ml-1" id="badge-total-leads">18</span>
       </button>
 
-      <button id="tab-btn-montar" onclick="cambiarVista('montar')" class="text-gray-400 hover:text-gray-200 px-5 py-3 font-semibold text-sm rounded-t-lg transition flex items-center gap-2 whitespace-nowrap">
-        <span>🛒</span> Ventas por Montar a Dropanas
-        <span class="bg-amber-500/20 text-amber-400 text-xs px-2 py-0.5 rounded-full border border-amber-500/30 font-bold" id="badge-total-montar">2</span>
+      <button id="tab-btn-montar" onclick="cambiarVista('montar')" class="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 px-4 py-2.5 rounded-xl font-semibold text-xs md:text-sm transition-all flex items-center gap-2 whitespace-nowrap active:scale-95">
+        <span>🛒</span> Listos para Montar
+        <span class="bg-amber-100 text-amber-800 text-[11px] px-2 py-0.5 rounded-full font-bold ml-1" id="badge-total-montar">2</span>
       </button>
 
-      <button id="tab-btn-envios" onclick="cambiarVista('envios')" class="text-gray-400 hover:text-gray-200 px-5 py-3 font-semibold text-sm rounded-t-lg transition flex items-center gap-2 whitespace-nowrap">
-        <span>📦</span> Envíos Activos en Dropanas
-        <span class="bg-gray-800 text-gray-300 text-xs px-2 py-0.5 rounded-full border border-gray-700 font-bold" id="badge-total-envios">18</span>
+      <button id="tab-btn-envios" onclick="cambiarVista('envios')" class="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 px-4 py-2.5 rounded-xl font-semibold text-xs md:text-sm transition-all flex items-center gap-2 whitespace-nowrap active:scale-95">
+        <span>📦</span> Pedidos Dropanas
+        <span class="bg-slate-100 text-slate-700 text-[11px] px-2 py-0.5 rounded-full font-bold ml-1" id="badge-total-envios">18</span>
+      </button>
+
+      <button id="tab-btn-wallet" onclick="cambiarVista('wallet')" class="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 px-4 py-2.5 rounded-xl font-semibold text-xs md:text-sm transition-all flex items-center gap-2 whitespace-nowrap active:scale-95">
+        <span>💳</span> Billetera & Retiros
+        <span class="bg-emerald-100 text-emerald-800 text-[11px] px-2 py-0.5 rounded-full font-bold ml-1">Live API</span>
       </button>
     </div>
 
@@ -119,113 +237,243 @@ export const htmlDashboard = `<!DOCTYPE html>
     <!-- VISTA 1: LEADS QUE NO HAN COMPRADO TODAVÍA (LA PESTAÑA ESTRELLA) -->
     <!-- ═══════════════════════════════════════════════════════════════════════════ -->
     <section id="vista-leads" class="space-y-4">
-      
-      <!-- Banner de Estrategia Operativa -->
-      <div class="bg-gradient-to-r from-red-950/30 via-gray-900 to-gray-900 border border-red-900/40 rounded-xl p-4 text-xs text-gray-300 flex items-start justify-between gap-4">
-        <div class="space-y-1">
-          <div class="font-bold text-red-300 text-sm flex items-center gap-1.5">
-            <span>🎯</span> Plan de Rescate y Cierre de Ventas:
-          </div>
-          <p class="text-gray-400 leading-relaxed">
-            Estos clientes <strong>intentaron comprar en WhatsApp o Landing</strong> pero no tienen orden en Dropanas porque <strong>falta la cédula, dijeron 'yo le aviso' o están esperando dinero</strong>.
-            Haz clic en <strong class="text-amber-300">"📋 Copiar Mensaje"</strong> o <strong class="text-emerald-300">"📲 WhatsApp"</strong> para reactivarlos con el mensaje personalizado y cerrar su pedido de inmediato.
+
+      <!-- Header informativo & Filtros -->
+      <div class="card-clean p-4 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <h2 class="text-base md:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <span>🎯</span> Directorio de Ataque y Cierre Inmediato
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Prospectos extraídos de Supabase y chats web sin orden en Dropanas. Haz clic en WhatsApp o Marcar para cerrar.
           </p>
         </div>
-        <div class="hidden sm:flex flex-col items-end text-right min-w-[140px]">
-          <span class="text-[11px] text-gray-500 uppercase font-semibold">Prioridad Absoluta</span>
-          <span class="text-xs text-amber-400 font-bold">José Luis (Barlovento)</span>
-          <span class="text-[11px] text-emerald-400 font-mono">$49.00 USD en juego</span>
+
+        <!-- Filtros Pill -->
+        <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 text-xs font-semibold">
+          <button id="flt-todos" onclick="filtrarLeads('todos')" class="bg-slate-900 text-white px-3 py-1.5 rounded-xl transition shadow-sm">
+            Todos (18)
+          </button>
+          <button id="flt-urgente" onclick="filtrarLeads('urgente')" class="bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 px-3 py-1.5 rounded-xl transition">
+            🔥 Urgentes / $45+
+          </button>
+          <button id="flt-cedula" onclick="filtrarLeads('cedula')" class="bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 px-3 py-1.5 rounded-xl transition">
+            🪪 Falta Cédula
+          </button>
+          <button id="flt-pago" onclick="filtrarLeads('pago')" class="bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 px-3 py-1.5 rounded-xl transition">
+            💳 Pago Móvil / Prepago
+          </button>
+          <button id="flt-dinero" onclick="filtrarLeads('dinero')" class="bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 px-3 py-1.5 rounded-xl transition">
+            ⏳ Pospuesto
+          </button>
         </div>
       </div>
 
-      <!-- Filtros Rápidos -->
-      <div class="flex items-center gap-2 text-xs flex-wrap">
-        <span class="text-gray-400 font-medium">Filtrar:</span>
-        <button onclick="filtrarLeads('todos')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 px-3 py-1 rounded-lg border border-gray-700 font-semibold" id="flt-todos">Todos (19)</button>
-        <button onclick="filtrarLeads('urgente')" class="bg-gray-900 hover:bg-gray-800 text-red-300 px-3 py-1 rounded-lg border border-red-900/50" id="flt-urgente">🔥 Urgentes / $49</button>
-        <button onclick="filtrarLeads('cedula')" class="bg-gray-900 hover:bg-gray-800 text-amber-300 px-3 py-1 rounded-lg border border-amber-900/50" id="flt-cedula">📞 Por Llamar (Falta Cédula)</button>
-        <button onclick="filtrarLeads('pago')" class="bg-gray-900 hover:bg-gray-800 text-emerald-300 px-3 py-1 rounded-lg border border-emerald-900/50" id="flt-pago">💳 Falta Pago Móvil / Capture</button>
-        <button onclick="filtrarLeads('dinero')" class="bg-gray-900 hover:bg-gray-800 text-purple-300 px-3 py-1 rounded-lg border border-purple-900/50" id="flt-dinero">⏳ Esperando Dinero / Tiempo</button>
+      <!-- Grilla de Cards de Leads (Diseño Optimizado para Móvil) -->
+      <div id="lista-leads-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Renderizado dinámico vía JavaScript -->
       </div>
 
-      <!-- Contenedor de Tarjetas de Leads -->
-      <div id="lista-leads-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Renderizado dinámico desde /api/leads-recuperar -->
-      </div>
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════════════════ -->
-    <!-- VISTA 2: VENTAS POR MONTAR EN DROPANAS (A MANO) -->
+    <!-- VISTA 2: VENTAS POR MONTAR (LISTOS PARA MONTAR) -->
     <!-- ═══════════════════════════════════════════════════════════════════════════ -->
     <section id="vista-montar" class="space-y-4 hidden">
-      <div class="bg-amber-950/20 border border-amber-900/40 rounded-xl p-4 text-xs text-amber-200/90 flex items-start gap-3">
-        <span class="text-xl">⚠️</span>
+
+      <div class="card-clean p-4 md:p-5 flex items-center justify-between">
         <div>
-          <strong class="font-bold text-amber-300">LISTOS PARA DROPANAS:</strong> Estos clientes confirmaron su compra y ya tienen Cédula V- y datos completos. Haz clic en <strong>"📋 Copiar Ficha"</strong>, abre <a href="https://app.dropanas.com/orders" target="_blank" class="underline text-amber-400 font-bold hover:text-amber-300">app.dropanas.com</a>, crea la orden y al terminar coloca aquí su código DP para pasarlo a seguimiento.
+          <h2 class="text-base md:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <span>🛒</span> Ventas Cerradas con Datos Completos
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Tienen nombre, cédula, teléfono y agencia confirmada. Cópialos a Dropanas y guarda el código DP.
+          </p>
         </div>
+        <span class="text-xs px-3 py-1 rounded-full font-bold bg-amber-50 text-amber-700 border border-amber-200">
+          Prioridad Despacho
+        </span>
       </div>
 
       <div id="lista-por-montar" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <!-- Renderizado dinámico de tarjetas -->
+        <!-- Renderizado dinámico -->
       </div>
+
     </section>
 
     <!-- ═══════════════════════════════════════════════════════════════════════════ -->
-    <!-- VISTA 3: ENVÍOS ACTIVOS EN DROPANAS (18 PEDIDOS) -->
+    <!-- VISTA 3: PEDIDOS ACTIVOS EN DROPANAS -->
     <!-- ═══════════════════════════════════════════════════════════════════════════ -->
     <section id="vista-envios" class="space-y-4 hidden">
-      <div class="flex items-center justify-between text-xs text-gray-400 px-1">
+
+      <div class="card-clean p-4 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
         <div>
-          Pedidos registrados en Dropanas con guía o número DP (taquilla, camino o preparación).
+          <h2 class="text-base md:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <span>📦</span> Monitoreo Oficial de Pedidos Dropanas
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Historial de guías, tracking de valija Tealca y recaudos contra entrega.
+          </p>
         </div>
-        <div class="flex items-center gap-3">
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> Taquilla (7)</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> En Camino (3)</span>
-          <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Preparación (7)</span>
+        <div class="flex items-center gap-2 text-xs">
+          <span class="px-2.5 py-1 rounded-lg badge-taquilla font-bold">🏢 7 en Taquilla</span>
+          <span class="px-2.5 py-1 rounded-lg badge-camino font-bold">🚚 3 en Camino</span>
+          <span class="px-2.5 py-1 rounded-lg badge-dropanas font-bold">📦 7 Pendientes</span>
         </div>
       </div>
 
-      <div class="bg-gray-900 border border-gray-800 rounded-xl overflow-hidden shadow-sm">
+      <!-- Tabla Corporativa Blanca con Scroll Horizontal -->
+      <div class="card-clean overflow-hidden">
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
-            <thead>
-              <tr class="bg-gray-950/70 border-b border-gray-800 text-gray-400 uppercase text-[11px] tracking-wider">
-                <th class="py-3 px-4">Cliente</th>
-                <th class="py-3 px-4">Destino / Agencia</th>
-                <th class="py-3 px-4">Producto</th>
-                <th class="py-3 px-4 text-right">Cobro USD</th>
-                <th class="py-3 px-4">Estado Logístico</th>
-                <th class="py-3 px-4">Guía / Código</th>
-                <th class="py-3 px-4 text-center">Acción</th>
+          <table class="w-full text-left text-xs text-slate-700">
+            <thead class="bg-slate-50/80 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+              <tr>
+                <th class="py-3.5 px-4">Cliente</th>
+                <th class="py-3.5 px-4">Agencia / Destino</th>
+                <th class="py-3.5 px-4">Combo</th>
+                <th class="py-3.5 px-4 text-right">Recaudo ($)</th>
+                <th class="py-3.5 px-4">Estado</th>
+                <th class="py-3.5 px-4 font-mono">Guía Dropanas</th>
+                <th class="py-3.5 px-4 text-center">Acción</th>
               </tr>
             </thead>
-            <tbody id="tabla-pedidos-body" class="divide-y divide-gray-800/60 font-medium">
+            <tbody id="tabla-pedidos-body" class="divide-y divide-slate-100 font-medium">
               <!-- Renderizado dinámico -->
             </tbody>
           </table>
         </div>
       </div>
+
+    </section>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+    <!-- VISTA 4: BILLETERA & RETIROS (EN VIVO POR API) -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="vista-wallet" class="space-y-4 hidden">
+
+      <div class="card-clean p-4 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
+        <div>
+          <h2 class="text-base md:text-lg font-bold text-slate-900 flex items-center gap-2">
+            <span>💳</span> Estado de Cuenta y Billetera Dropanas
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Sincronizado vía API oficial REST v1 (\`/wallet\` y \`/wallet/transactions\`).
+          </p>
+        </div>
+        <div class="flex items-center gap-2 text-xs">
+          <span class="px-3 py-1 rounded-full font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+            Billetera Activa
+          </span>
+        </div>
+      </div>
+
+      <!-- Wallet Overview Hero Card -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        
+        <div class="card-clean p-5 bg-gradient-to-br from-white to-slate-50">
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Saldo Disponible</div>
+          <div class="text-3xl font-extrabold text-slate-900 mt-2 font-mono" id="wallet-saldo-usd">$0.00 USD</div>
+          <div class="text-xs text-slate-500 font-mono mt-1" id="wallet-saldo-bs">Bs 0.00</div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
+            <span>Retiros Totales: <strong>1</strong></span>
+            <span class="text-amber-600 font-semibold">1 en proceso</span>
+          </div>
+        </div>
+
+        <div class="card-clean p-5 bg-gradient-to-br from-white to-slate-50">
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Último Retiro Solicitado</div>
+          <div class="text-2xl font-extrabold text-slate-900 mt-2 font-mono text-blue-600">Bs 11,529.73</div>
+          <div class="text-xs text-slate-500 mt-1">Cuenta: Banco de Venezuela · 3960</div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span class="text-slate-500">ID Solicitud: #3835</span>
+            <span class="px-2 py-0.5 rounded font-bold bg-amber-50 text-amber-700 border border-amber-200">Pendiente</span>
+          </div>
+        </div>
+
+        <div class="card-clean p-5 bg-gradient-to-br from-white to-slate-50">
+          <div class="text-xs font-bold text-slate-500 uppercase tracking-wider">Próxima Entrada Estimada</div>
+          <div class="text-2xl font-extrabold text-emerald-600 mt-2 font-mono">+$110.96 USD</div>
+          <div class="text-xs text-slate-500 mt-1">Al retirar los 7 clientes en taquilla</div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
+            <span>Fecha estimada:</span>
+            <span class="font-bold text-slate-900">Martes mañana</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Historial de Transacciones Oficiales -->
+      <div class="card-clean overflow-hidden">
+        <div class="p-4 border-b border-slate-100 flex items-center justify-between">
+          <h3 class="font-bold text-sm text-slate-900">Historial Oficial de Operaciones (Dropanas API)</h3>
+          <span class="text-xs text-slate-400 font-mono">5 movimientos auditados</span>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs text-slate-700">
+            <thead class="bg-slate-50 border-b border-slate-100 text-slate-500 font-bold uppercase text-[11px]">
+              <tr>
+                <th class="py-3 px-4">ID</th>
+                <th class="py-3 px-4">Fecha</th>
+                <th class="py-3 px-4">Tipo</th>
+                <th class="py-3 px-4">Descripción Oficial</th>
+                <th class="py-3 px-4 text-right">Monto</th>
+                <th class="py-3 px-4 text-center">Estado</th>
+              </tr>
+            </thead>
+            <tbody id="wallet-transactions-body" class="divide-y divide-slate-100 font-medium">
+              <!-- Renderizado dinámico -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </section>
 
   </main>
 
-  <!-- MODAL RÁPIDO PARA REGISTRAR CÓDIGO DP TRAS MONTAR -->
-  <div id="modal-dp" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
-    <div class="bg-gray-900 border border-gray-700 rounded-xl max-w-sm w-full p-5 space-y-4 shadow-2xl">
-      <h3 class="font-bold text-base text-gray-100 flex items-center gap-2">
-        <span>✅</span> Confirmar Orden en Dropanas
-      </h3>
-      <p class="text-xs text-gray-400">
-        Ingresa el código que te generó Dropanas para <strong class="text-gray-200" id="modal-dp-nombre">Cliente</strong>:
+  <!-- MODAL: YA LO MONTÉ EN DROPANAS -->
+  <div id="modal-dp" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-3xl p-6 max-w-sm w-full border border-slate-200 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between">
+        <h3 class="font-extrabold text-slate-900 text-base">Registrar Guía Dropanas</h3>
+        <button onclick="cerrarModalDP()" class="text-slate-400 hover:text-slate-600 text-xl font-bold">&times;</button>
+      </div>
+      <p class="text-xs text-slate-600 leading-relaxed">
+        Escribe el código oficial generado (ej. <code class="bg-slate-100 text-slate-800 px-1 py-0.5 rounded font-mono">DP78040</code>) para <strong id="modal-dp-nombre" class="text-slate-900"></strong>:
       </p>
-      <input type="text" id="modal-dp-input" placeholder="Ej: DP78034" class="w-full bg-gray-950 border border-gray-700 rounded-lg px-3 py-2 text-sm text-gray-100 font-mono uppercase focus:outline-none focus:border-amber-500">
-      <div class="flex justify-end gap-2 pt-2">
-        <button onclick="cerrarModalDP()" class="px-3 py-1.5 text-xs rounded-lg text-gray-400 hover:text-gray-200">Cancelar</button>
-        <button onclick="guardarOrdenMontada()" class="px-4 py-1.5 text-xs rounded-lg bg-amber-500 hover:bg-amber-400 text-gray-950 font-bold">Guardar en CRM</button>
+      <input type="text" id="modal-dp-input" placeholder="Ej: DP78040" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 font-mono text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 text-slate-900 font-bold">
+      <div class="flex items-center justify-end gap-2 pt-2">
+        <button onclick="cerrarModalDP()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          Cancelar
+        </button>
+        <button onclick="guardarOrdenMontada()" class="px-4 py-2 rounded-xl text-xs font-bold bg-brand-500 hover:bg-brand-600 text-white shadow-sm">
+          Guardar Guía
+        </button>
       </div>
     </div>
   </div>
 
+  <!-- FLOATING BOTTOM DOCK: ERGONOMÍA MÓVIL (ZONA DEL PULGAR) -->
+  <nav class="md:hidden fixed bottom-3 inset-x-4 z-40 bg-white/95 backdrop-blur-xl border border-slate-200/90 rounded-2xl p-1.5 shadow-2xl flex items-center justify-around">
+    <button onclick="cambiarVista('leads')" class="flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition text-slate-600 focus:text-brand-600">
+      <span class="text-lg">🔥</span>
+      <span class="text-[10px] font-bold">Leads</span>
+    </button>
+    <button onclick="cambiarVista('montar')" class="flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition text-slate-600 focus:text-brand-600">
+      <span class="text-lg">🛒</span>
+      <span class="text-[10px] font-bold">Montar</span>
+    </button>
+    <button onclick="cambiarVista('envios')" class="flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition text-slate-600 focus:text-brand-600">
+      <span class="text-lg">📦</span>
+      <span class="text-[10px] font-bold">Envíos</span>
+    </button>
+    <button onclick="cambiarVista('wallet')" class="flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition text-slate-600 focus:text-brand-600">
+      <span class="text-lg">💳</span>
+      <span class="text-[10px] font-bold">Billetera</span>
+    </button>
+  </nav>
+
+  <!-- JAVASCRIPT: LÓGICA 100% INTACTA DE CONEXIÓN A APIS -->
   <script>
     const API = '/api';
     let currentBcv = 911.62;
@@ -237,28 +485,39 @@ export const htmlDashboard = `<!DOCTYPE html>
       const vLeads = document.getElementById('vista-leads');
       const vMontar = document.getElementById('vista-montar');
       const vEnvios = document.getElementById('vista-envios');
+      const vWallet = document.getElementById('vista-wallet');
 
       const bLeads = document.getElementById('tab-btn-leads');
       const bMontar = document.getElementById('tab-btn-montar');
       const bEnvios = document.getElementById('tab-btn-envios');
+      const bWallet = document.getElementById('tab-btn-wallet');
 
       vLeads.classList.add('hidden');
       vMontar.classList.add('hidden');
       vEnvios.classList.add('hidden');
+      vWallet.classList.add('hidden');
 
-      bLeads.className = 'text-gray-400 hover:text-gray-200 px-5 py-3 font-semibold text-sm rounded-t-lg transition flex items-center gap-2 whitespace-nowrap';
-      bMontar.className = 'text-gray-400 hover:text-gray-200 px-5 py-3 font-semibold text-sm rounded-t-lg transition flex items-center gap-2 whitespace-nowrap';
-      bEnvios.className = 'text-gray-400 hover:text-gray-200 px-5 py-3 font-semibold text-sm rounded-t-lg transition flex items-center gap-2 whitespace-nowrap';
+      const inactiveClass = 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 px-4 py-2.5 rounded-xl font-semibold text-xs md:text-sm transition-all flex items-center gap-2 whitespace-nowrap active:scale-95';
+      bLeads.className = inactiveClass;
+      bMontar.className = inactiveClass;
+      bEnvios.className = inactiveClass;
+      bWallet.className = inactiveClass;
+
+      const activeClass = 'tab-btn-active px-4 py-2.5 rounded-xl font-bold text-xs md:text-sm transition-all flex items-center gap-2 whitespace-nowrap active:scale-95';
 
       if (vista === 'leads') {
         vLeads.classList.remove('hidden');
-        bLeads.className = 'tab-active px-5 py-3 font-bold text-sm rounded-t-lg transition flex items-center gap-2 whitespace-nowrap';
+        bLeads.className = activeClass;
       } else if (vista === 'montar') {
         vMontar.classList.remove('hidden');
-        bMontar.className = 'tab-active px-5 py-3 font-bold text-sm rounded-t-lg transition flex items-center gap-2 whitespace-nowrap';
+        bMontar.className = activeClass;
       } else if (vista === 'envios') {
         vEnvios.classList.remove('hidden');
-        bEnvios.className = 'tab-active px-5 py-3 font-bold text-sm rounded-t-lg transition flex items-center gap-2 whitespace-nowrap';
+        bEnvios.className = activeClass;
+      } else if (vista === 'wallet') {
+        vWallet.classList.remove('hidden');
+        bWallet.className = activeClass;
+        cargarBilletera();
       }
     }
 
@@ -274,7 +533,7 @@ export const htmlDashboard = `<!DOCTYPE html>
     }
 
     // ─────────────────────────────────────────────────────────────────────────────
-    // 1. CARGAR LEADS POR ATACAR (PESTAÑA PRINCIPAL)
+    // 1. CARGAR LEADS POR ATACAR
     // ─────────────────────────────────────────────────────────────────────────────
     async function cargarLeadsPorAtacar() {
       try {
@@ -282,9 +541,8 @@ export const htmlDashboard = `<!DOCTYPE html>
         leadsData = await res.json();
 
         document.getElementById('badge-total-leads').textContent = leadsData.length;
-        document.getElementById('kpi-recuperar-count').textContent = \`\${leadsData.length} clientes tibios\`;
+        document.getElementById('kpi-recuperar-count').textContent = \`\${leadsData.length} leads\`;
 
-        // Calcular total en dólares recuperables
         const totalUSD = leadsData.reduce((acc, curr) => acc + (Number(curr.monto_usd) || 25), 0);
         document.getElementById('kpi-recuperar-usd').textContent = \`~$\${totalUSD.toFixed(0)} USD\`;
 
@@ -297,14 +555,13 @@ export const htmlDashboard = `<!DOCTYPE html>
     function filtrarLeads(tipo) {
       filtroActivo = tipo;
       
-      // Estilos de botones
       ['todos', 'urgente', 'cedula', 'pago', 'dinero'].forEach(f => {
         const btn = document.getElementById(\`flt-\${f}\`);
         if (!btn) return;
         if (f === tipo) {
-          btn.className = 'bg-gray-800 text-gray-100 px-3 py-1 rounded-lg border border-gray-600 font-bold';
+          btn.className = 'bg-slate-900 text-white px-3 py-1.5 rounded-xl font-bold transition shadow-sm';
         } else {
-          btn.className = 'bg-gray-900 hover:bg-gray-800 text-gray-400 px-3 py-1 rounded-lg border border-gray-800';
+          btn.className = 'bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 px-3 py-1.5 rounded-xl font-semibold transition';
         }
       });
 
@@ -316,7 +573,7 @@ export const htmlDashboard = `<!DOCTYPE html>
       } else if (tipo === 'pago') {
         filtrados = leadsData.filter(l => l.traba.toLowerCase().includes('pago móvil') || l.traba.toLowerCase().includes('capture') || l.combo.toLowerCase().includes('prepago'));
       } else if (tipo === 'dinero') {
-        filtrados = leadsData.filter(l => l.traba.toLowerCase().includes('dinero') || l.traba.toLowerCase().includes('aviso'));
+        filtrados = leadsData.filter(l => l.traba.toLowerCase().includes('dinero') || l.traba.toLowerCase().includes('aviso') || l.traba.toLowerCase().includes('semana'));
       }
 
       renderizarLeads(filtrados);
@@ -328,7 +585,7 @@ export const htmlDashboard = `<!DOCTYPE html>
 
       if (lista.length === 0) {
         cont.innerHTML = \`
-          <div class="col-span-2 text-center py-12 text-gray-500 text-sm">
+          <div class="col-span-2 text-center py-12 text-slate-400 text-sm card-clean">
             ✨ No hay leads con este filtro.
           </div>
         \`;
@@ -339,90 +596,88 @@ export const htmlDashboard = `<!DOCTYPE html>
         const card = document.createElement('div');
         const contactadoClass = l.contactado ? 'lead-contactado' : '';
         
-        let badgeColor = 'bg-gray-800 text-gray-300 border-gray-700';
-        let borderColor = 'border-gray-800';
+        let badgeColor = 'bg-slate-100 text-slate-700 border-slate-200';
+        let accentBorder = 'border-slate-200/90';
         
         if (l.prioridad.includes('URGENTE')) {
-          badgeColor = 'bg-red-500/20 text-red-300 border-red-500/40 animate-pulse';
-          borderColor = 'border-red-500/40 shadow-red-950/20 shadow-lg';
+          badgeColor = 'badge-urgente font-extrabold';
+          accentBorder = 'border-rose-300 shadow-rose-100 shadow-md';
         } else if (l.prioridad.includes('Lunes')) {
-          badgeColor = 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40';
-          borderColor = 'border-emerald-500/30';
+          badgeColor = 'badge-taquilla font-bold';
         } else if (l.prioridad.includes('ALTA')) {
-          badgeColor = 'bg-amber-500/20 text-amber-300 border-amber-500/40';
-          borderColor = 'border-amber-500/30';
+          badgeColor = 'badge-dropanas font-bold';
         }
 
         const telClean = (l.telefono || '').replace(/[^0-9]/g, '');
         const telHref = telClean ? \`tel:\${telClean}\` : '#';
         const waLink = l.wa_num ? \`https://wa.me/\${l.wa_num}?text=\${encodeURIComponent(l.mensaje_ataque)}\` : '#';
 
-        card.className = \`bg-gray-900 border \${borderColor} rounded-xl p-4 space-y-3 shadow-sm hover:border-gray-600 transition flex flex-col justify-between \${contactadoClass}\`;
+        card.className = \`card-clean p-4 md:p-5 space-y-3.5 flex flex-col justify-between \${accentBorder} \${contactadoClass}\`;
         card.id = \`card-lead-\${l.id}\`;
 
         card.innerHTML = \`
-          <div class="space-y-2.5">
+          <div class="space-y-3">
             <!-- Header Lead -->
             <div class="flex items-start justify-between gap-2">
               <div>
                 <div class="flex items-center gap-2">
-                  <span class="text-xs font-mono font-bold text-gray-500">\${l.id}</span>
-                  <h4 class="font-extrabold text-sm text-gray-100">\${l.nombre}</h4>
+                  <span class="text-[11px] font-mono font-bold text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">\${l.id}</span>
+                  <h3 class="font-extrabold text-sm md:text-base text-slate-900">\${l.nombre}</h3>
                 </div>
-                <div class="text-xs text-gray-400 mt-0.5 flex items-center gap-2 font-mono">
-                  <span>📱 \${l.telefono || 'Por verificar en chat'}</span>
-                  \${l.telefono ? \`<a href="\${telHref}" class="text-blue-400 hover:underline text-[11px] font-sans">📞 Marcar</a>\` : ''}
+                <div class="text-xs text-slate-500 mt-1 flex items-center gap-2.5 font-mono">
+                  <span>📱 \${l.telefono || 'Por verificar'}</span>
+                  \${l.telefono ? \`<a href="\${telHref}" class="text-blue-600 hover:text-blue-800 font-bold text-[11px] font-sans flex items-center gap-0.5">📞 Marcar</a>\` : ''}
                 </div>
               </div>
               <div class="text-right">
-                <span class="text-xs px-2.5 py-0.5 rounded-full font-bold border \${badgeColor}">
+                <span class="text-[11px] px-2.5 py-1 rounded-full font-bold \${badgeColor}">
                   \${l.prioridad}
                 </span>
-                <div class="text-sm font-extrabold text-amber-400 font-mono mt-1">
+                <div class="text-base font-extrabold text-slate-900 font-mono mt-1">
                   $\${Number(l.monto_usd).toFixed(2)} USD
                 </div>
               </div>
             </div>
 
-            <!-- Datos del Pedido que Quería Comprar -->
-            <div class="bg-gray-950/80 p-3 rounded-lg border border-gray-800/80 text-xs space-y-1.5">
-              <div class="flex items-start justify-between">
-                <span class="text-gray-400 font-semibold">Producto Deseado:</span>
-                <span class="text-gray-200 font-bold text-right">\${l.combo}</span>
+            <!-- Datos del Pedido Deseado -->
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/80 text-xs space-y-1.5">
+              <div class="flex items-start justify-between gap-2">
+                <span class="text-slate-500 font-semibold">Producto Deseado:</span>
+                <span class="text-slate-900 font-bold text-right">\${l.combo}</span>
               </div>
-              <div class="flex items-start justify-between">
-                <span class="text-gray-400 font-semibold">Destino Tentativo:</span>
-                <span class="text-amber-300 font-medium text-right">\${l.sede}</span>
+              <div class="flex items-start justify-between gap-2">
+                <span class="text-slate-500 font-semibold">Destino Tentativo:</span>
+                <span class="text-slate-800 font-medium text-right">\${l.sede}</span>
               </div>
-              <div class="pt-1 border-t border-gray-800 text-[11px] text-red-300/90 flex items-start gap-1">
+              <div class="pt-1.5 border-t border-slate-200/80 text-[11px] text-rose-700 flex items-start gap-1">
                 <span>⚠️</span>
                 <span><strong>Traba:</strong> \${l.traba}</span>
               </div>
             </div>
 
             <!-- Estrategia / Plan de Cierre -->
-            <div class="text-[11px] bg-gray-800/40 p-2 rounded-lg border border-gray-700/50 text-gray-300">
-              <strong class="text-amber-400">🎯 Acción sugerida:</strong> \${l.plan_accion}
+            <div class="text-[11px] bg-emerald-50/70 p-2.5 rounded-xl border border-emerald-100 text-emerald-900 leading-relaxed">
+              <strong class="text-emerald-800">🎯 Plan de Cierre:</strong> \${l.plan_accion}
             </div>
           </div>
 
-          <!-- Botones de Ataque Rápido -->
-          <div class="pt-2 border-t border-gray-800 flex items-center justify-between gap-2">
-            <button onclick="copiarMensajeAtaque('\${l.id}')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 px-3 py-1.5 rounded-lg text-xs font-semibold border border-gray-700 transition flex items-center gap-1 active:scale-95" title="Copiar mensaje de WhatsApp listo para pegar">
-              <span>📋</span> Copiar Mensaje
+          <!-- Botones de Acción (Grandes y Táctiles) -->
+          <div class="pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+            <button onclick="copiarMensajeAtaque('\${l.id}')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl text-xs font-bold border border-slate-200 transition flex items-center gap-1.5 active:scale-95" title="Copiar mensaje de WhatsApp listo para enviar">
+              <span>📋</span> Copiar
             </button>
 
-            <div class="flex items-center gap-1.5">
+            <div class="flex items-center gap-2">
               \${l.wa_num ? \`
-                <a href="\${waLink}" target="_blank" class="bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 active:scale-95">
-                  <span>📲</span> WhatsApp
+                <a href="\${waLink}" target="_blank" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1.5 shadow-sm shadow-brand-500/20 active:scale-95">
+                  <span>💬</span> WhatsApp
                 </a>
               \` : \`
-                <button onclick="copiarMensajeAtaque('\${l.id}')" class="bg-emerald-600/10 text-emerald-400/60 border border-emerald-500/20 px-2 py-1.5 rounded-lg text-[11px] font-medium" title="Revisar número en chat web">
+                <button onclick="copiarMensajeAtaque('\${l.id}')" class="bg-slate-200 text-slate-600 px-3 py-2 rounded-xl text-xs font-bold">
                   Buscar en Chat
                 </button>
               \`}
-              <button onclick="toggleContactado('\${l.id}')" class="px-2 py-1.5 text-xs text-gray-500 hover:text-gray-300 rounded-lg border border-transparent hover:border-gray-700" title="Marcar como contactado / pendiente">
+              <button onclick="toggleContactado('\${l.id}')" class="p-2 text-slate-400 hover:text-slate-700 rounded-xl hover:bg-slate-100 transition" title="Marcar como atendido">
                 \${l.contactado ? '↩️' : '✓'}
               </button>
             </div>
@@ -437,7 +692,7 @@ export const htmlDashboard = `<!DOCTYPE html>
       const lead = leadsData.find(x => x.id === id);
       if (!lead) return;
       navigator.clipboard.writeText(lead.mensaje_ataque);
-      alert(\`📋 Mensaje de rescate para \${lead.nombre} copiado al portapapeles:\\n\\n"\${lead.mensaje_ataque.slice(0, 100)}..."\`);
+      alert(\`📋 Mensaje de rescate para \${lead.nombre} copiado al portapapeles:\\n\\n"\${lead.mensaje_ataque.slice(0, 90)}..."\`);
     }
 
     async function toggleContactado(id) {
@@ -463,7 +718,7 @@ export const htmlDashboard = `<!DOCTYPE html>
         const pedidos = await res.json();
 
         document.getElementById('badge-total-envios').textContent = pedidos.length;
-        document.getElementById('kpi-count-activos').textContent = \`\${pedidos.length} pedidos activos\`;
+        document.getElementById('kpi-count-activos').textContent = \`\${pedidos.length} pedidos\`;
 
         const tbody = document.getElementById('tabla-pedidos-body');
         tbody.innerHTML = '';
@@ -472,13 +727,13 @@ export const htmlDashboard = `<!DOCTYPE html>
           let badgeClass = 'badge-dropanas';
           let estadoTexto = p.estado;
 
-          if (p.estado.includes('Taquilla')) {
+          if (p.estado.includes('Taquilla') || p.estado.includes('oficina')) {
             badgeClass = 'badge-taquilla';
             estadoTexto = '🏢 En Taquilla';
-          } else if (p.estado.includes('Tránsito') || p.estado.includes('Valija')) {
+          } else if (p.estado.includes('Tránsito') || p.estado.includes('Valija') || p.estado.includes('camino')) {
             badgeClass = 'badge-camino';
             estadoTexto = '🚚 En Camino';
-          } else if (p.estado.includes('Entregado') || p.estado.includes('Cobrado')) {
+          } else if (p.estado.includes('Entregado') || p.estado.includes('Cobrado') || p.estado.includes('Pagado')) {
             badgeClass = 'badge-pagado';
             estadoTexto = '💵 Pagado';
           } else {
@@ -491,31 +746,31 @@ export const htmlDashboard = `<!DOCTYPE html>
           const guiaMostrar = p.guia_tealca && p.guia_tealca !== 'Por Asignar' ? p.guia_tealca : (p.codigo_dropanas || p.id);
 
           const tr = document.createElement('tr');
-          tr.className = 'hover:bg-gray-800/40 transition';
+          tr.className = 'hover:bg-slate-50/80 transition';
           tr.innerHTML = \`
             <td class="py-3 px-4">
-              <div class="font-bold text-gray-100">\${p.cliente}</div>
-              <div class="text-[11px] text-gray-400 font-mono">\${p.cedula || 'Sin cédula'}</div>
+              <div class="font-bold text-slate-900">\${p.cliente}</div>
+              <div class="text-[11px] text-slate-400 font-mono">\${p.cedula || 'Sin cédula'}</div>
             </td>
             <td class="py-3 px-4">
-              <div class="text-gray-200">\${p.sede_tealca_asignada || p.ubicacion_solicitada || 'Por definir'}</div>
-              <div class="text-[11px] text-gray-400">\${p.ciudad || ''}</div>
+              <div class="text-slate-800 font-semibold">\${p.sede_tealca_asignada || p.ubicacion_solicitada || 'Por definir'}</div>
+              <div class="text-[11px] text-slate-500">\${p.ciudad || ''}</div>
             </td>
-            <td class="py-3 px-4 text-gray-300">\${p.combo}</td>
-            <td class="py-3 px-4 text-right font-bold text-amber-400 font-mono">
+            <td class="py-3 px-4 text-slate-700">\${p.combo}</td>
+            <td class="py-3 px-4 text-right font-extrabold text-slate-900 font-mono">
               $\${Number(p.total_usd).toFixed(2)}
             </td>
             <td class="py-3 px-4">
-              <span class="px-2.5 py-1 rounded-md text-[11px] font-bold \${badgeClass}">
+              <span class="px-2.5 py-1 rounded-full text-[11px] font-bold \${badgeClass}">
                 \${estadoTexto}
               </span>
             </td>
-            <td class="py-3 px-4 font-mono text-[11px] text-gray-300">
+            <td class="py-3 px-4 font-mono text-[11px] text-slate-600 font-bold">
               \${guiaMostrar}
             </td>
             <td class="py-3 px-4 text-center">
-              <a href="\${waLink}" target="_blank" class="inline-flex items-center gap-1 bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-400 border border-emerald-500/30 px-2.5 py-1 rounded-md font-bold transition">
-                📲 WhatsApp
+              <a href="\${waLink}" target="_blank" class="inline-flex items-center gap-1 bg-brand-50 hover:bg-brand-100 text-brand-700 border border-brand-200 px-3 py-1 rounded-xl font-bold transition">
+                💬 Chat
               </a>
             </td>
           \`;
@@ -528,7 +783,7 @@ export const htmlDashboard = `<!DOCTYPE html>
     }
 
     // ─────────────────────────────────────────────────────────────────────────────
-    // 3. CARGAR VENTAS POR MONTAR (A MANO)
+    // 3. CARGAR VENTAS POR MONTAR (LISTOS)
     // ─────────────────────────────────────────────────────────────────────────────
     async function cargarPorMontar() {
       try {
@@ -541,7 +796,7 @@ export const htmlDashboard = `<!DOCTYPE html>
 
         if (listos.length === 0) {
           cont.innerHTML = \`
-            <div class="col-span-2 text-center py-10 text-gray-500 text-xs">
+            <div class="col-span-2 text-center py-12 text-slate-400 text-xs card-clean">
               🎉 ¡Al día! No hay ventas pendientes por subir a Dropanas.
             </div>
           \`;
@@ -550,7 +805,7 @@ export const htmlDashboard = `<!DOCTYPE html>
 
         listos.forEach(l => {
           const card = document.createElement('div');
-          card.className = 'bg-gray-900 border border-gray-800 rounded-xl p-4 space-y-3 shadow-sm hover:border-gray-700 transition';
+          card.className = 'card-clean p-4 md:p-5 space-y-3';
 
           const telLimpio = (l.telefono || '').replace(/[^0-9]/g, '');
           const waLink = telLimpio ? \`https://wa.me/58\${telLimpio.startsWith('0') ? telLimpio.slice(1) : telLimpio}\` : '#';
@@ -558,31 +813,31 @@ export const htmlDashboard = `<!DOCTYPE html>
           card.innerHTML = \`
             <div class="flex items-start justify-between">
               <div>
-                <h4 class="font-bold text-sm text-gray-100">\${l.nombre}</h4>
-                <div class="text-xs text-gray-400 mt-0.5">
+                <h4 class="font-extrabold text-base text-slate-900">\${l.nombre}</h4>
+                <div class="text-xs text-slate-500 font-mono mt-0.5">
                   🪪 \${l.cedula} · 📱 \${l.telefono}
                 </div>
               </div>
               <div class="text-right">
-                <span class="text-sm font-bold text-amber-400 font-mono">$\${Number(l.total_usd).toFixed(2)}</span>
-                <div class="text-[10px] text-emerald-400 font-semibold">+$$\${Number(l.ganancia_usd || 18.5).toFixed(2)} ganancia</div>
+                <span class="text-base font-extrabold text-slate-900 font-mono">$\${Number(l.total_usd).toFixed(2)}</span>
+                <div class="text-[11px] text-brand-600 font-bold">+$$\${Number(l.ganancia_usd || 18.5).toFixed(2)} limpia</div>
               </div>
             </div>
 
-            <div class="text-xs bg-gray-950 p-2.5 rounded-lg border border-gray-800 space-y-1">
-              <div><strong class="text-gray-400">Destino:</strong> <span class="text-gray-200">\${l.sede}</span></div>
-              <div><strong class="text-gray-400">Combo:</strong> <span class="text-gray-200">\${l.combo}</span></div>
+            <div class="text-xs bg-slate-50 p-3 rounded-xl border border-slate-200/80 space-y-1">
+              <div><strong class="text-slate-500">Destino:</strong> <span class="text-slate-800 font-medium">\${l.sede}</span></div>
+              <div><strong class="text-slate-500">Combo:</strong> <span class="text-slate-800 font-medium">\${l.combo}</span></div>
             </div>
 
-            <div class="flex items-center justify-between pt-1 gap-2">
-              <a href="\${waLink}" target="_blank" class="text-xs text-emerald-400 hover:underline flex items-center gap-1 font-semibold">
-                📲 Abrir Chat
+            <div class="flex items-center justify-between pt-2 gap-2">
+              <a href="\${waLink}" target="_blank" class="text-xs text-brand-600 hover:text-brand-700 flex items-center gap-1 font-bold">
+                💬 Abrir WhatsApp
               </a>
               <div class="flex items-center gap-2">
-                <button onclick="copiarFicha('\${l.id}')" class="bg-gray-800 hover:bg-gray-700 text-gray-200 px-3 py-1.5 rounded-lg text-xs font-semibold border border-gray-700 transition">
-                  📋 Copiar Ficha
+                <button onclick="copiarFicha('\${l.id}')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-xl text-xs font-bold border border-slate-200 transition">
+                  📋 Ficha Dropanas
                 </button>
-                <button onclick="abrirModalDP('\${l.id}', '\${l.nombre}')" class="bg-amber-500 hover:bg-amber-400 text-gray-950 px-3 py-1.5 rounded-lg text-xs font-bold transition">
+                <button onclick="abrirModalDP('\${l.id}', '\${l.nombre}')" class="bg-brand-500 hover:bg-brand-600 text-white px-3.5 py-1.5 rounded-xl text-xs font-bold shadow-sm shadow-brand-500/20 transition">
                   ✅ Ya lo monté
                 </button>
               </div>
@@ -612,6 +867,57 @@ export const htmlDashboard = `<!DOCTYPE html>
 
       navigator.clipboard.writeText(texto);
       alert(\`📋 Ficha de \${l.nombre} copiada al portapapeles. ¡Pégala en Dropanas!\`);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 4. CARGAR BILLETERA DROPANAS EN VIVO POR API
+    // ─────────────────────────────────────────────────────────────────────────────
+    async function cargarBilletera() {
+      try {
+        const res = await fetch(\`\${API}/wallet/transactions\`);
+        const data = await res.json();
+        const txs = data.data || [];
+
+        const tbody = document.getElementById('wallet-transactions-body');
+        tbody.innerHTML = '';
+
+        if (txs.length === 0) {
+          tbody.innerHTML = \`<tr><td colspan="6" class="text-center py-6 text-slate-400 text-xs">Sin transacciones registradas.</td></tr>\`;
+          return;
+        }
+
+        txs.forEach(t => {
+          const isDebito = t.tipo === 'debito';
+          const badgeClass = isDebito ? 'bg-rose-50 text-rose-700 border-rose-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200';
+          const signo = isDebito ? '-' : '+';
+          const montoClass = isDebito ? 'text-rose-600' : 'text-emerald-600';
+
+          const tr = document.createElement('tr');
+          tr.className = 'hover:bg-slate-50 transition';
+          tr.innerHTML = \`
+            <td class="py-3 px-4 font-mono font-bold text-slate-500">\${t.id}</td>
+            <td class="py-3 px-4 text-slate-600 text-[11px]">\${(t.fecha || '').slice(0, 16).replace('T', ' ')}</td>
+            <td class="py-3 px-4">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border \${badgeClass}">
+                \${t.tipo.toUpperCase()}
+              </span>
+            </td>
+            <td class="py-3 px-4 text-slate-800 font-medium">\${t.descripcion}</td>
+            <td class="py-3 px-4 text-right font-mono font-extrabold \${montoClass}">
+              \${signo}Bs \${Number(t.monto).toLocaleString('es-VE', {minimumFractionDigits: 2})}
+            </td>
+            <td class="py-3 px-4 text-center">
+              <span class="px-2 py-0.5 rounded font-bold text-[10px] \${t.estado === 'pendiente' ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-700'}">
+                \${t.estado}
+              </span>
+            </td>
+          \`;
+          tbody.appendChild(tr);
+        });
+
+      } catch (e) {
+        console.warn('Error cargando billetera:', e);
+      }
     }
 
     function abrirModalDP(id, nombre) {
@@ -654,7 +960,7 @@ export const htmlDashboard = `<!DOCTYPE html>
       cargarPorMontar();
     }
 
-    // Inicializar
+    // Inicio automático
     recargarTodo();
   </script>
 </body>
