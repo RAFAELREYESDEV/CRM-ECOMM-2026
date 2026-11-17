@@ -277,39 +277,66 @@
         </div>
       </div>
 
-      <!-- SECCIÓN DESTACADA: PEDIDOS EN OFICINA TEALCA (COBRO INMEDIATO) -->
-      <div id="seccion-en-oficina" class="card-clean p-4 md:p-5 border-amber-300 bg-gradient-to-br from-amber-50/60 via-white to-white shadow-sm space-y-3.5 transition-all duration-300">
+      <!-- SECCIÓN DESTACADA: PEDIDOS EN OFICINA TEALCA (CONTROL DE PLAZO MÁX. 5 DÍAS) -->
+      <div id="seccion-en-oficina" class="card-clean p-4 md:p-5 border-amber-300 bg-gradient-to-br from-amber-50/70 via-white to-white shadow-sm space-y-4 transition-all duration-300">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-200/60 pb-3">
           <div class="flex items-center gap-2.5">
-            <span class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center text-base font-black shadow-sm">🏢</span>
+            <span class="w-10 h-10 rounded-2xl bg-amber-500 text-white flex items-center justify-center text-lg font-black shadow-md shadow-amber-500/20">🏢</span>
             <div>
-              <h3 class="font-extrabold text-sm md:text-base text-slate-900 flex items-center gap-2 flex-wrap">
-                En Oficina Tealca · Control de Cobro y Retiro
+              <div class="flex items-center gap-2 flex-wrap">
+                <h3 class="font-extrabold text-sm md:text-base text-slate-900 tracking-tight">
+                  En Oficina Tealca · Control de Plazo (Máx. 5 Días)
+                </h3>
                 <span class="bg-amber-100 text-amber-900 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full border border-amber-300" id="badge-oficina-header">
-                  6 Pedidos · $174.35 USD
+                  9 Paquetes en Taquilla
                 </span>
-              </h3>
+                <span class="bg-rose-100 text-rose-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-rose-300 hidden sm:inline-flex items-center gap-1">
+                  <span>⏳</span> Plazo Máx. 5 Días
+                </span>
+              </div>
               <p class="text-xs text-slate-500 mt-0.5">
-                Paquetes en taquilla para cobrar. Revisa a quién le falta avisar y quién ya confirmó para ir hoy.
+                Tealca retiene los paquetes un máximo de 5 días hábiles en taquilla. Monitorea la cuenta regresiva día a día para evitar devoluciones y asegurar el cobro.
               </p>
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200 whitespace-nowrap" id="kpi-oficina-total-bs">
-              💵 Bs ~159,661 a liquidar
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200 whitespace-nowrap shadow-xs" id="kpi-oficina-total-bs">
+              💵 Bs ~250,422 a liquidar
             </span>
           </div>
         </div>
 
-        <!-- Filtros Rápidos Internos de En Oficina -->
-        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px] font-semibold border-b border-amber-200/40 pb-2">
-          <button id="flt-of-todos" onclick="filtrarOficina('todos')" class="bg-amber-900 text-white px-2.5 py-1 rounded-lg font-bold shadow-xs transition">Todos (6)</button>
-          <button id="flt-of-falta" onclick="filtrarOficina('sin_aviso')" class="bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 px-2.5 py-1 rounded-lg font-semibold transition">🔴 Falta Avisar (4)</button>
-          <button id="flt-of-hoy" onclick="filtrarOficina('confirmado_hoy')" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-lg font-semibold transition">🟢 Retira Hoy (1)</button>
-          <button id="flt-of-reprog" onclick="filtrarOficina('reprogramado')" class="bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-lg font-semibold transition">⏳ Reprogramó (1)</button>
-          <button id="flt-of-pagado" onclick="filtrarOficina('pagado')" class="bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-2.5 py-1 rounded-lg font-semibold transition">✅ Ya Pagó</button>
+        <!-- Barra Informativa de Políticas Tealca -->
+        <div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-200/80 rounded-xl p-2.5 flex items-center justify-between gap-3 text-[11px]">
+          <div class="flex items-center gap-2 text-amber-900">
+            <span class="text-base">⚠️</span>
+            <span><strong>Regla de Taquilla Tealca:</strong> Los paquetes en oficina pueden estar máximo 5 días hábiles. Al 5to día se genera orden de retorno a Caracas.</span>
+          </div>
+          <span class="font-bold text-amber-800 shrink-0 bg-white/80 px-2.5 py-1 rounded-lg border border-amber-200">
+            Día a Día
+          </span>
         </div>
 
+        <!-- Filtros Rápidos de Cuenta Regresiva -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px] font-semibold border-b border-amber-200/40 pb-2">
+          <button id="flt-of-todos" onclick="filtrarOficina('todos')" class="bg-amber-900 text-white px-3 py-1.5 rounded-xl font-bold shadow-xs transition">
+            Todos en Taquilla (9)
+          </button>
+          <button id="flt-of-critico" onclick="filtrarOficina('critico')" class="bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-300 px-3 py-1.5 rounded-xl font-bold transition flex items-center gap-1">
+            <span>🔴</span> Riesgo Devolución (Día 4-5)
+          </button>
+          <button id="flt-of-plazo" onclick="filtrarOficina('en_plazo')" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 px-3 py-1.5 rounded-xl font-semibold transition flex items-center gap-1">
+            <span>🟢</span> En Plazo (Día 1-3)
+          </button>
+          <button id="flt-of-falta" onclick="filtrarOficina('sin_aviso')" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-3 py-1.5 rounded-xl font-semibold transition">
+            Falta Avisar
+          </button>
+          <button id="flt-of-hoy" onclick="filtrarOficina('confirmado_hoy')" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-3 py-1.5 rounded-xl font-semibold transition">
+            Retira Hoy
+          </button>
+        </div>
+
+        <!-- Grilla de Cards de En Oficina con Cuenta Regresiva -->
         <div id="lista-en-oficina-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
           <!-- Renderizado dinámico vía JavaScript -->
         </div>
@@ -583,99 +610,34 @@
     // ─────────────────────────────────────────────────────────────────────────────
     // 0. PEDIDOS EN OFICINA TEALCA (CONTROL DE COBRO INMEDIATO & AVISO)
     // ─────────────────────────────────────────────────────────────────────────────
-    const PEDIDOS_OFICINA_DEFAULT = [
-      {
-        id: "oficina-willians",
-        guia: "85109525",
-        cliente: "Willians Balza",
-        cedula: "V-18906539",
-        telefono: "0414-5592084",
-        ciudad: "Barinas",
-        sede: "Tealca Barinas Centro (CC Barinas)",
-        combo: "Pote 30 Gomitas Viking",
-        recaudo_usd: 28.99,
-        estado_aviso: "confirmado_hoy", // 'sin_aviso', 'avisado', 'confirmado_hoy', 'reprogramado', 'pagado'
-        nota_aviso: "Confirmó que retira HOY martes 17/11"
-      },
-      {
-        id: "oficina-jose-hernandez",
-        guia: "85116795",
-        cliente: "José Hernández",
-        cedula: "V-28226214",
-        telefono: "0416-1249548",
-        ciudad: "Barinas",
-        sede: "Tealca Alto Barinas",
-        combo: "Combo 3 Pares (6 Gomitas)",
-        recaudo_usd: 25.20,
-        estado_aviso: "sin_aviso",
-        nota_aviso: "Sin confirmación · Falta avisar para que vaya a buscar y pagar"
-      },
-      {
-        id: "oficina-jose-toro",
-        guia: "85094718",
-        cliente: "Jose Toro",
-        cedula: "V-4536361",
-        telefono: "0424-6658035",
-        ciudad: "Carora, Lara",
-        sede: "Tealca Carora",
-        combo: "Pote 30 Gomitas Viking ($45)",
-        recaudo_usd: 45.00,
-        estado_aviso: "sin_aviso",
-        nota_aviso: "Ticket alto $45 USD · Falta avisar para asegurar cobro"
-      },
-      {
-        id: "oficina-giovanni",
-        guia: "85090982",
-        cliente: "Giovanni González",
-        cedula: "V-10214779",
-        telefono: "0424-6214353",
-        ciudad: "Ciudad Ojeda, Zulia",
-        sede: "Tealca Ciudad Ojeda",
-        combo: "Combo 3 Pares (6 Gomitas)",
-        recaudo_usd: 25.00,
-        estado_aviso: "sin_aviso",
-        nota_aviso: "Sin confirmación · Falta avisar que ya está en taquilla"
-      },
-      {
-        id: "oficina-edwin",
-        guia: "85087573",
-        cliente: "Edwin José Moreno Ávila",
-        cedula: "V-15032905",
-        telefono: "0424-7464111",
-        ciudad: "Mérida",
-        sede: "Tealca Mérida Norte (Sector Milla)",
-        combo: "Combo 3 Pares (6 Gomitas)",
-        recaudo_usd: 25.05,
-        estado_aviso: "sin_aviso",
-        nota_aviso: "Sin confirmación · Falta avisar para que retire en agencia Milla"
-      },
-      {
-        id: "oficina-luis-reyes",
-        guia: "85102431",
-        cliente: "Luis Reyes",
-        cedula: "",
-        telefono: "0412-5628358",
-        ciudad: "La Victoria, Aragua",
-        sede: "Tealca La Victoria",
-        combo: "Combo 3 Pares (6 Gomitas)",
-        recaudo_usd: 25.11,
-        estado_aviso: "reprogramado",
-        nota_aviso: "Viajando a Santa Elena de Uairén · Retira el jueves 19/11"
-      }
-    ];
-
     let pedidosOficinaData = [];
+    let filtroOficinaActivo = 'todos';
 
-    function inicializarPedidosOficina() {
+    // Cargar pedidos en oficina en vivo desde la API autónoma
+    async function inicializarPedidosOficina() {
       try {
-        const guardados = localStorage.getItem('crm_pedidos_oficina_v2');
-        if (guardados) {
-          pedidosOficinaData = JSON.parse(guardados);
-        } else {
-          pedidosOficinaData = [...PEDIDOS_OFICINA_DEFAULT];
+        const res = await fetch(`${API}/pedidos-oficina`);
+        if (res.ok) {
+          const liveOficina = await res.json();
+          // Cargar notas y estados locales guardados por el usuario
+          let estadosLocales = {};
+          try {
+            const guardados = localStorage.getItem('crm_pedidos_oficina_v3');
+            if (guardados) estadosLocales = JSON.parse(guardados);
+          } catch(e) {}
+
+          pedidosOficinaData = liveOficina.map(p => {
+            const local = estadosLocales[p.id] || {};
+            const dias = p.dias_en_oficina || 1;
+            return {
+              ...p,
+              estado_aviso: local.estado_aviso || p.estado_aviso || 'sin_aviso',
+              nota_aviso: local.nota_aviso || p.nota_aviso || (dias >= 5 ? '⚠️ 5 días en taquilla · Contactar urgente' : `Día ${dias} de 5 en taquilla`)
+            };
+          });
         }
       } catch (e) {
-        pedidosOficinaData = [...PEDIDOS_OFICINA_DEFAULT];
+        console.warn('Error cargando pedidos oficina live:', e);
       }
       renderizarPedidosOficina();
     }
@@ -684,14 +646,36 @@
       const p = pedidosOficinaData.find(x => x.id === id);
       if (p) {
         p.estado_aviso = nuevoEstado;
-        if (nuevoEstado === 'confirmado_hoy') p.nota_aviso = 'Confirmó que retira HOY martes 17/11';
+        if (nuevoEstado === 'confirmado_hoy') p.nota_aviso = 'Confirmó que retira HOY';
         else if (nuevoEstado === 'avisado') p.nota_aviso = 'Avisado por WhatsApp · Esperando respuesta';
         else if (nuevoEstado === 'sin_aviso') p.nota_aviso = 'Sin confirmación · Falta avisar';
         else if (nuevoEstado === 'reprogramado') p.nota_aviso = 'Reprogramó fecha de retiro';
         else if (nuevoEstado === 'pagado') p.nota_aviso = 'Entregado y pagado en taquilla';
-        localStorage.setItem('crm_pedidos_oficina_v2', JSON.stringify(pedidosOficinaData));
+
+        try {
+          const guardados = localStorage.getItem('crm_pedidos_oficina_v3');
+          const mapa = guardados ? JSON.parse(guardados) : {};
+          mapa[id] = { estado_aviso: p.estado_aviso, nota_aviso: p.nota_aviso };
+          localStorage.setItem('crm_pedidos_oficina_v3', JSON.stringify(mapa));
+        } catch(e) {}
+
         renderizarPedidosOficina();
       }
+    }
+
+    function filtrarOficina(tipo) {
+      filtroOficinaActivo = tipo;
+      ['todos', 'critico', 'en_plazo', 'sin_aviso', 'confirmado_hoy'].forEach(f => {
+        const btnId = 'flt-of-' + (f === 'critico' ? 'critico' : f === 'en_plazo' ? 'plazo' : f === 'sin_aviso' ? 'falta' : f === 'confirmado_hoy' ? 'hoy' : f);
+        const btn = document.getElementById(btnId);
+        if (!btn) return;
+        if (f === tipo) {
+          btn.className = 'bg-amber-900 text-white px-3 py-1.5 rounded-xl font-bold shadow-xs transition';
+        } else {
+          btn.className = 'bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-3 py-1.5 rounded-xl font-semibold transition';
+        }
+      });
+      renderizarPedidosOficina();
     }
 
     function renderizarPedidosOficina() {
@@ -699,46 +683,92 @@
       if (!cont) return;
       cont.innerHTML = '';
 
+      let items = pedidosOficinaData;
+      if (filtroOficinaActivo === 'critico') {
+        items = pedidosOficinaData.filter(p => (p.dias_en_oficina || 1) >= 4);
+      } else if (filtroOficinaActivo === 'en_plazo') {
+        items = pedidosOficinaData.filter(p => (p.dias_en_oficina || 1) <= 3);
+      } else if (filtroOficinaActivo === 'sin_aviso') {
+        items = pedidosOficinaData.filter(p => p.estado_aviso === 'sin_aviso');
+      } else if (filtroOficinaActivo === 'confirmado_hoy') {
+        items = pedidosOficinaData.filter(p => p.estado_aviso === 'confirmado_hoy');
+      }
+
+      const criticosCount = pedidosOficinaData.filter(p => (p.dias_en_oficina || 1) >= 4).length;
+      const btnCritico = document.getElementById('flt-of-critico');
+      if (btnCritico) btnCritico.innerHTML = `<span>🔴</span> Riesgo Devolución (${criticosCount})`;
+
+      const btnTodos = document.getElementById('flt-of-todos');
+      if (btnTodos) btnTodos.textContent = `Todos en Taquilla (${pedidosOficinaData.length})`;
+
+      if (items.length === 0) {
+        cont.innerHTML = `<div class="col-span-full py-8 text-center text-xs text-slate-400 font-medium card-clean bg-slate-50 border-slate-200">✨ No hay paquetes en taquilla con este filtro.</div>`;
+      }
+
       let totalUSD = 0;
       pedidosOficinaData.forEach(p => {
-        totalUSD += p.recaudo_usd;
-        const totalBs = (p.recaudo_usd * bcvRate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        const telClean = p.telefono.replace(/[^0-9]/g, '');
+        if (p.estado_aviso !== 'pagado') {
+          totalUSD += (Number(p.recaudo_usd) || Number(p.total_usd) || 25.0);
+        }
+      });
+
+      items.forEach(p => {
+        const montoUsd = Number(p.recaudo_usd) || Number(p.total_usd) || 25.0;
+        const totalBs = (montoUsd * currentBcv).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const telClean = (p.telefono || '').replace(/[^0-9]/g, '');
         const waNum = telClean.startsWith('0') ? '58' + telClean.slice(1) : (telClean.startsWith('58') ? telClean : '58' + telClean);
 
-        const waMsg = `¡Hola ${p.cliente}! 👋 Te saluda Rafael de Gummies Viking Venezuela.\n\nTe aviso con alegría que tu paquete con número de guía oficial *${p.guia}* ya está disponible en la agencia *${p.sede}* listo para que lo retires y pagues en tus manos (*$${p.recaudo_usd.toFixed(2)} USD* / *Bs ${totalBs}* a tasa BCV).\n\n¿Tienes chance de pasar hoy a buscarlo? 📦🤝`;
+        const dias = p.dias_en_oficina || 1;
+        const diasRestantes = Math.max(0, 5 - dias);
+        const pctProgreso = Math.min(100, Math.round((dias / 5) * 100));
 
-        let badgeStatus = '';
+        let colorBarra = 'bg-emerald-500';
+        let badgeCountdown = '';
         let borderCard = 'border-slate-200';
-        let bgStatusBadge = '';
+        let waMsg = '';
 
-        if (p.estado_aviso === 'confirmado_hoy') {
-          badgeStatus = '🟢 Confirmó Retiro Hoy';
-          borderCard = 'border-emerald-300 shadow-emerald-50';
-          bgStatusBadge = 'bg-emerald-100 text-emerald-800 border-emerald-300';
-        } else if (p.estado_aviso === 'reprogramado') {
-          badgeStatus = '⏳ Reprogramado';
+        if (dias >= 5) {
+          colorBarra = 'bg-rose-600';
+          borderCard = 'border-rose-400 shadow-md shadow-rose-100 ring-1 ring-rose-300';
+          badgeCountdown = `
+            <span class="inline-flex items-center gap-1 text-[10px] font-black px-2 py-0.5 rounded-full bg-rose-100 text-rose-800 border border-rose-300 animate-pulse">
+              <span>⚠️</span> DÍA 5/5 · ¡VENCE HOY!
+            </span>
+          `;
+          waMsg = `¡Hola ${p.cliente}! 👋 Te saluda Rafael de Gummies Viking Venezuela.\n\n⚠️ Te contacto con urgencia: tu paquete con guía oficial *${p.guia}* ya cumplió el tiempo límite de 5 días en la taquilla de *${p.sede}*. La empresa de envíos lo tiene programado para devolución.\n\nEl monto a cancelar en taquilla es *$${montoUsd.toFixed(2)} USD* (o *Bs ${totalBs}* a tasa oficial BCV).\n\n¿Tienes chance de pasar hoy a retirarlo para pedir a la agencia que mantenga el paquete en taquilla? 📦🤝`;
+        } else if (dias === 4) {
+          colorBarra = 'bg-orange-500';
+          borderCard = 'border-orange-300 shadow-sm';
+          badgeCountdown = `
+            <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-orange-100 text-orange-800 border border-orange-300">
+              <span>🟠</span> DÍA 4/5 · Queda 1 día
+            </span>
+          `;
+          waMsg = `¡Hola ${p.cliente}! 👋 Te saluda Rafael de Gummies Viking Venezuela.\n\nTe aviso que tu paquete con guía oficial *${p.guia}* está en la agencia *${p.sede}* y le queda solo 1 día de resguardo antes de que procedan a retornarlo.\n\nPuedes retirarlo y pagarlo en efectivo o Pago Móvil (*$${montoUsd.toFixed(2)} USD* / *Bs ${totalBs}* a tasa BCV).\n\n¿Pasas hoy o mañana por él? 📦🤝`;
+        } else if (dias === 3) {
+          colorBarra = 'bg-amber-500';
           borderCard = 'border-amber-300';
-          bgStatusBadge = 'bg-amber-100 text-amber-800 border-amber-300';
-        } else if (p.estado_aviso === 'avisado') {
-          badgeStatus = '🟡 Avisado (Esperando)';
-          borderCard = 'border-blue-200';
-          bgStatusBadge = 'bg-blue-100 text-blue-800 border-blue-200';
-        } else if (p.estado_aviso === 'pagado') {
-          badgeStatus = '💵 Retirado y Pagado';
-          borderCard = 'border-slate-200 opacity-60';
-          bgStatusBadge = 'bg-slate-100 text-slate-700 border-slate-300';
+          badgeCountdown = `
+            <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 border border-amber-300">
+              <span>🟡</span> DÍA 3/5 · Quedan 2 días
+            </span>
+          `;
+          waMsg = `¡Hola ${p.cliente}! 👋 Te saluda Rafael de Gummies Viking Venezuela.\n\nTe recuerdo con gusto que tu paquete con guía oficial *${p.guia}* se encuentra disponible en *${p.sede}* esperando por ti.\n\nEl monto a cancelar en taquilla es *$${montoUsd.toFixed(2)} USD* (o *Bs ${totalBs}* a tasa BCV).\n\n¿Tienes chance de pasar a buscarlo hoy? 📦🤝`;
         } else {
-          badgeStatus = '🔴 Sin Confirmar · Falta Avisar';
-          borderCard = 'border-rose-300 shadow-rose-50 shadow-sm';
-          bgStatusBadge = 'bg-rose-100 text-rose-800 border-rose-300 font-extrabold';
+          colorBarra = 'bg-emerald-500';
+          badgeCountdown = `
+            <span class="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300">
+              <span>🟢</span> DÍA ${dias}/5 · Quedan ${diasRestantes} días
+            </span>
+          `;
+          waMsg = `¡Hola ${p.cliente}! 👋 Te saluda Rafael de Gummies Viking Venezuela.\n\nTe aviso con alegría que tu paquete con guía oficial *${p.guia}* ya está disponible en la agencia *${p.sede}* listo para que lo retires y pagues en tus manos (*$${montoUsd.toFixed(2)} USD* / *Bs ${totalBs}* a tasa BCV).\n\n¿Tienes chance de pasar hoy a buscarlo? 📦🤝`;
         }
 
         const card = document.createElement('div');
-        card.className = `card-clean p-3.5 space-y-2.5 border ${borderCard} bg-white flex flex-col justify-between`;
+        card.className = `card-clean p-4 space-y-3 border ${borderCard} bg-white flex flex-col justify-between`;
         card.innerHTML = `
-          <div class="space-y-2">
-            <!-- Header Cliente -->
+          <div class="space-y-2.5">
+            <!-- Header Cliente & Cuenta Regresiva -->
             <div class="flex items-start justify-between gap-1.5">
               <div>
                 <div class="flex items-center gap-1.5 flex-wrap">
@@ -751,12 +781,30 @@
                 </div>
               </div>
               <div class="text-right whitespace-nowrap">
-                <span class="text-[10px] px-2 py-0.5 rounded-full font-bold border ${bgStatusBadge}">
-                  ${badgeStatus}
-                </span>
+                ${badgeCountdown}
                 <div class="text-xs font-black text-slate-900 font-mono mt-1">
-                  $${p.recaudo_usd.toFixed(2)} USD
+                  $${montoUsd.toFixed(2)} USD
                 </div>
+              </div>
+            </div>
+
+            <!-- Barra Visual Cuenta Regresiva (Día 1 a 5) -->
+            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200/80 space-y-1.5">
+              <div class="flex items-center justify-between text-[10px] font-bold">
+                <span class="text-slate-600">Tiempo en Taquilla:</span>
+                <span class="${dias >= 5 ? 'text-rose-600 font-black' : dias === 4 ? 'text-orange-600 font-black' : 'text-slate-800'}">
+                  ${dias >= 5 ? '¡Límite 5 días cumplido!' : `Día ${dias} de 5 (${diasRestantes} días restantes)`}
+                </span>
+              </div>
+              <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden flex">
+                <div class="${colorBarra} h-2 rounded-full transition-all duration-500" style="width: ${pctProgreso}%"></div>
+              </div>
+              <div class="flex justify-between text-[9px] text-slate-400 font-mono">
+                <span>Día 1</span>
+                <span>Día 2</span>
+                <span>Día 3</span>
+                <span>Día 4</span>
+                <span class="font-bold text-rose-500">Día 5 (Límite)</span>
               </div>
             </div>
 
@@ -779,7 +827,6 @@
             <!-- Estado de Comunicación / Nota -->
             <div class="text-[10px] bg-slate-50 p-2 rounded-lg border border-slate-200 text-slate-600 flex items-center justify-between">
               <span class="font-medium truncate mr-1">📝 ${p.nota_aviso}</span>
-              <!-- Selector Rápido de Estado -->
               <select onchange="guardarEstadoOficina('${p.id}', this.value)" class="text-[10px] font-bold bg-white border border-slate-300 rounded px-1.5 py-0.5 text-slate-800 outline-none">
                 <option value="sin_aviso" ${p.estado_aviso === 'sin_aviso' ? 'selected' : ''}>🔴 Falta Avisar</option>
                 <option value="avisado" ${p.estado_aviso === 'avisado' ? 'selected' : ''}>🟡 Avisado</option>
@@ -792,22 +839,21 @@
 
           <!-- Botón de Acción WhatsApp -->
           <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
-            <a href="https://wa.me/${waNum}?text=${encodeURIComponent(waMsg)}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-1.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm shadow-emerald-600/20 active:scale-95">
-              <span>💬</span> Mandar Recordatorio de Retiro
+            <a href="https://wa.me/${waNum}?text=${encodeURIComponent(waMsg)}" target="_blank" class="w-full ${dias >= 5 ? 'bg-rose-600 hover:bg-rose-700 shadow-rose-600/30' : dias === 4 ? 'bg-orange-600 hover:bg-orange-700 shadow-orange-600/30' : 'bg-emerald-600 hover:bg-emerald-700 shadow-emerald-600/20'} text-white py-2 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm active:scale-95">
+              <span>💬</span> ${dias >= 5 ? '¡Enviar Alerta Límite WhatsApp!' : 'Mandar Recordatorio de Retiro'}
             </a>
           </div>
         `;
         cont.appendChild(card);
       });
 
-      const totalBsOficina = (totalUSD * bcvRate).toLocaleString('es-VE', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      const totalBsOficina = (totalUSD * currentBcv).toLocaleString('es-VE', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
       const kpiBsEl = document.getElementById('kpi-oficina-total-bs');
       if (kpiBsEl) kpiBsEl.textContent = `💵 Bs ~${totalBsOficina} a liquidar`;
+      const badgeHeader = document.getElementById('badge-oficina-header');
+      if (badgeHeader) badgeHeader.textContent = `${pedidosOficinaData.length} Paquetes · $${totalUSD.toFixed(2)} USD`;
     }
 
-    // ─────────────────────────────────────────────────────────────────────────────
-    // 1. CARGAR LEADS POR ATACAR
-    // ─────────────────────────────────────────────────────────────────────────────
     async function cargarLeadsPorAtacar() {
       try {
         const res = await fetch(`${API}/leads-recuperar`);
