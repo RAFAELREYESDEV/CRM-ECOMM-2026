@@ -189,22 +189,24 @@
         </div>
       </div>
 
-      <!-- Card 4: Retiro & Flujo de Caja -->
-      <div class="card-clean p-4 md:p-5 flex flex-col justify-between">
+      <!-- Card 4: Pagos Cobrados en Banco (Flujo Real de Caja) -->
+      <div class="card-clean p-4 md:p-5 flex flex-col justify-between border-emerald-200/80 bg-gradient-to-br from-emerald-50/30 to-white">
         <div class="flex items-center justify-between gap-2">
-          <span class="text-[11px] md:text-xs font-bold uppercase tracking-wider text-blue-600">
-            🏦 Retiro en Tránsito
+          <span class="text-[11px] md:text-xs font-bold uppercase tracking-wider text-emerald-700 flex items-center gap-1.5">
+            <span>🏦</span> Cobrado en Banco
           </span>
-          <span class="text-[10px] md:text-xs px-2 py-0.5 rounded-full font-bold bg-blue-50 text-blue-700 border border-blue-200/60">
-            #3835
+          <span class="text-[10px] md:text-xs px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+            Retiro #3835
           </span>
         </div>
         <div class="my-2 md:my-3">
-          <div class="text-2xl md:text-3xl font-extrabold text-slate-900 font-mono tracking-tight" id="kpi-retiro-val">Bs 11,529.73</div>
-          <div class="text-[11px] text-amber-600 font-semibold mt-0.5">🟡 Pendiente acreditación banco</div>
+          <div class="text-2xl md:text-3xl font-extrabold text-slate-900 font-mono tracking-tight" id="kpi-retiro-val">Bs 11,299.14</div>
+          <div class="text-[11px] text-emerald-700 font-bold mt-0.5 flex items-center gap-1">
+            <span>🟢</span> 1er Pago Liquidado en Cuenta
+          </div>
         </div>
         <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-          <div class="bg-blue-500 h-1.5 rounded-full" style="width: 85%"></div>
+          <div class="bg-emerald-500 h-1.5 rounded-full" style="width: 100%"></div>
         </div>
       </div>
 
@@ -997,6 +999,20 @@
 
         document.getElementById('badge-total-envios').textContent = pedidos.length;
         document.getElementById('kpi-count-activos').textContent = `${pedidos.length} pedidos`;
+
+        // Cálculo dinámico de Facturación Activa y Ganancia Billetera
+        const totalFacturacion = pedidos.reduce((acc, p) => acc + (Number(p.recaudo_usd) || Number(p.total_usd) || 0), 0);
+        const totalCostos = pedidos.length * 12.50; // costo unitario mercancia + flete
+        const totalGanancia = Math.max(0, totalFacturacion - totalCostos);
+
+        const kpiFactEl = document.getElementById('kpi-facturacion');
+        if (kpiFactEl) kpiFactEl.textContent = `$${totalFacturacion.toFixed(2)} USD`;
+
+        const kpiFactBsEl = document.getElementById('kpi-facturacion-bs');
+        if (kpiFactBsEl) kpiFactBsEl.textContent = `Bs ${(totalFacturacion * bcvRate).toLocaleString('es-VE', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+
+        const kpiGanEl = document.getElementById('kpi-ganancia');
+        if (kpiGanEl) kpiGanEl.textContent = `+$${totalGanancia.toFixed(2)} USD`;
 
         const tbody = document.getElementById('tabla-pedidos-body');
         tbody.innerHTML = '';
