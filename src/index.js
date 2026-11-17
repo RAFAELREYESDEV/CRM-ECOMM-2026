@@ -77,6 +77,14 @@ export default {
       });
     }
 
+    // 3.1 Pedidos en Oficina Tealca (cobro inmediato)
+    if (path === '/api/pedidos-oficina') {
+      const oficina = initialPedidos.filter(p => (p.estado || '').includes('oficina') || (p.estado || '').includes('Taquilla'));
+      return new Response(JSON.stringify(oficina), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+      });
+    }
+
     // 4. Ventas por montar en Dropanas (José Medina, Yorge Guerrero)
     if (path === '/api/listos') {
       return new Response(JSON.stringify(initialListos), {

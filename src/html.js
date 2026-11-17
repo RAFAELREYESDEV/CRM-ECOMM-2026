@@ -254,6 +254,9 @@ export const htmlDashboard = `<!DOCTYPE html>
           <button id="flt-todos" onclick="filtrarLeads('todos')" class="bg-slate-900 text-white px-3 py-1.5 rounded-xl transition shadow-sm">
             Todos (18)
           </button>
+          <button id="flt-oficina" onclick="filtrarLeads('oficina')" class="bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-3 py-1.5 rounded-xl transition font-bold flex items-center gap-1 active:scale-95">
+            <span>🏢</span> En Oficina (6)
+          </button>
           <button id="flt-urgente" onclick="filtrarLeads('urgente')" class="bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 px-3 py-1.5 rounded-xl transition">
             🔥 Urgentes / $45+
           </button>
@@ -266,6 +269,36 @@ export const htmlDashboard = `<!DOCTYPE html>
           <button id="flt-dinero" onclick="filtrarLeads('dinero')" class="bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 px-3 py-1.5 rounded-xl transition">
             ⏳ Pospuesto
           </button>
+        </div>
+      </div>
+
+      <!-- SECCIÓN DESTACADA: PEDIDOS EN OFICINA TEALCA (COBRO INMEDIATO) -->
+      <div id="seccion-en-oficina" class="card-clean p-4 md:p-5 border-amber-300 bg-gradient-to-br from-amber-50/60 via-white to-white shadow-sm space-y-3.5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-200/60 pb-3">
+          <div class="flex items-center gap-2.5">
+            <span class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center text-base font-black shadow-sm">🏢</span>
+            <div>
+              <h3 class="font-extrabold text-sm md:text-base text-slate-900 flex items-center gap-2 flex-wrap">
+                En Oficina Tealca · Control de Cobro y Retiro
+                <span class="bg-amber-100 text-amber-900 text-[11px] font-extrabold px-2.5 py-0.5 rounded-full border border-amber-300" id="badge-oficina-header">
+                  6 Pedidos · $174.35 USD
+                </span>
+              </h3>
+              <p class="text-xs text-slate-500 mt-0.5">
+                Paquetes listos en taquilla para entregar y cobrar. Revisa a quién le falta avisar y quién ya confirmó para ir hoy.
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200 whitespace-nowrap" id="kpi-oficina-total-bs">
+              💵 Bs ~158,941 a liquidar
+            </span>
+          </div>
+        </div>
+
+        <!-- Grilla de Cards de En Oficina -->
+        <div id="lista-en-oficina-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
+          <!-- Renderizado dinámico vía JavaScript -->
         </div>
       </div>
 
@@ -533,6 +566,231 @@ export const htmlDashboard = `<!DOCTYPE html>
     }
 
     // ─────────────────────────────────────────────────────────────────────────────
+    // 0. PEDIDOS EN OFICINA TEALCA (CONTROL DE COBRO INMEDIATO & AVISO)
+    // ─────────────────────────────────────────────────────────────────────────────
+    const PEDIDOS_OFICINA_DEFAULT = [
+      {
+        id: "oficina-willians",
+        guia: "85109525",
+        cliente: "Willians Balza",
+        cedula: "V-18906539",
+        telefono: "0414-5592084",
+        ciudad: "Barinas",
+        sede: "Tealca Barinas Centro (CC Barinas)",
+        combo: "Pote 30 Gomitas Viking",
+        recaudo_usd: 28.99,
+        estado_aviso: "confirmado_hoy", // 'sin_aviso', 'avisado', 'confirmado_hoy', 'reprogramado', 'pagado'
+        nota_aviso: "Confirmó que retira HOY martes 17/11"
+      },
+      {
+        id: "oficina-jose-hernandez",
+        guia: "85116795",
+        cliente: "José Hernández",
+        cedula: "V-28226214",
+        telefono: "0416-1249548",
+        ciudad: "Barinas",
+        sede: "Tealca Alto Barinas",
+        combo: "Combo 3 Pares (6 Gomitas)",
+        recaudo_usd: 25.20,
+        estado_aviso: "sin_aviso",
+        nota_aviso: "Sin confirmación · Falta avisar para que vaya a buscar y pagar"
+      },
+      {
+        id: "oficina-jose-toro",
+        guia: "85094718",
+        cliente: "Jose Toro",
+        cedula: "V-4536361",
+        telefono: "0424-6658035",
+        ciudad: "Carora, Lara",
+        sede: "Tealca Carora",
+        combo: "Pote 30 Gomitas Viking ($45)",
+        recaudo_usd: 45.00,
+        estado_aviso: "sin_aviso",
+        nota_aviso: "Ticket alto $45 USD · Falta avisar para asegurar cobro"
+      },
+      {
+        id: "oficina-giovanni",
+        guia: "85090982",
+        cliente: "Giovanni González",
+        cedula: "V-10214779",
+        telefono: "0424-6214353",
+        ciudad: "Ciudad Ojeda, Zulia",
+        sede: "Tealca Ciudad Ojeda",
+        combo: "Combo 3 Pares (6 Gomitas)",
+        recaudo_usd: 25.00,
+        estado_aviso: "sin_aviso",
+        nota_aviso: "Sin confirmación · Falta avisar que ya está en taquilla"
+      },
+      {
+        id: "oficina-edwin",
+        guia: "85087573",
+        cliente: "Edwin José Moreno Ávila",
+        cedula: "V-15032905",
+        telefono: "0424-7464111",
+        ciudad: "Mérida",
+        sede: "Tealca Mérida Norte (Sector Milla)",
+        combo: "Combo 3 Pares (6 Gomitas)",
+        recaudo_usd: 25.05,
+        estado_aviso: "sin_aviso",
+        nota_aviso: "Sin confirmación · Falta avisar para que retire en agencia Milla"
+      },
+      {
+        id: "oficina-luis-reyes",
+        guia: "85102431",
+        cliente: "Luis Reyes",
+        cedula: "",
+        telefono: "0412-5628358",
+        ciudad: "La Victoria, Aragua",
+        sede: "Tealca La Victoria",
+        combo: "Combo 3 Pares (6 Gomitas)",
+        recaudo_usd: 25.11,
+        estado_aviso: "reprogramado",
+        nota_aviso: "Viajando a Santa Elena de Uairén · Retira el jueves 19/11"
+      }
+    ];
+
+    let pedidosOficinaData = [];
+
+    function inicializarPedidosOficina() {
+      try {
+        const guardados = localStorage.getItem('crm_pedidos_oficina_v2');
+        if (guardados) {
+          pedidosOficinaData = JSON.parse(guardados);
+        } else {
+          pedidosOficinaData = [...PEDIDOS_OFICINA_DEFAULT];
+        }
+      } catch (e) {
+        pedidosOficinaData = [...PEDIDOS_OFICINA_DEFAULT];
+      }
+      renderizarPedidosOficina();
+    }
+
+    function guardarEstadoOficina(id, nuevoEstado) {
+      const p = pedidosOficinaData.find(x => x.id === id);
+      if (p) {
+        p.estado_aviso = nuevoEstado;
+        if (nuevoEstado === 'confirmado_hoy') p.nota_aviso = 'Confirmó que retira HOY martes 17/11';
+        else if (nuevoEstado === 'avisado') p.nota_aviso = 'Avisado por WhatsApp · Esperando respuesta';
+        else if (nuevoEstado === 'sin_aviso') p.nota_aviso = 'Sin confirmación · Falta avisar';
+        else if (nuevoEstado === 'reprogramado') p.nota_aviso = 'Reprogramó fecha de retiro';
+        else if (nuevoEstado === 'pagado') p.nota_aviso = 'Entregado y pagado en taquilla';
+        localStorage.setItem('crm_pedidos_oficina_v2', JSON.stringify(pedidosOficinaData));
+        renderizarPedidosOficina();
+      }
+    }
+
+    function renderizarPedidosOficina() {
+      const cont = document.getElementById('lista-en-oficina-container');
+      if (!cont) return;
+      cont.innerHTML = '';
+
+      let totalUSD = 0;
+      pedidosOficinaData.forEach(p => {
+        totalUSD += p.recaudo_usd;
+        const totalBs = (p.recaudo_usd * bcvRate).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const telClean = p.telefono.replace(/[^0-9]/g, '');
+        const waNum = telClean.startsWith('0') ? '58' + telClean.slice(1) : (telClean.startsWith('58') ? telClean : '58' + telClean);
+
+        const waMsg = \`¡Hola \${p.cliente}! 👋 Te saluda Rafael de Gummies Viking Venezuela.\\n\\nTe aviso con alegría que tu paquete con número de guía oficial *\${p.guia}* ya está disponible en la agencia *\${p.sede}* listo para que lo retires y pagues en tus manos (*$\${p.recaudo_usd.toFixed(2)} USD* / *Bs \${totalBs}* a tasa BCV).\\n\\n¿Tienes chance de pasar hoy a buscarlo? 📦🤝\`;
+
+        let badgeStatus = '';
+        let borderCard = 'border-slate-200';
+        let bgStatusBadge = '';
+
+        if (p.estado_aviso === 'confirmado_hoy') {
+          badgeStatus = '🟢 Confirmó Retiro Hoy';
+          borderCard = 'border-emerald-300 shadow-emerald-50';
+          bgStatusBadge = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+        } else if (p.estado_aviso === 'reprogramado') {
+          badgeStatus = '⏳ Reprogramado';
+          borderCard = 'border-amber-300';
+          bgStatusBadge = 'bg-amber-100 text-amber-800 border-amber-300';
+        } else if (p.estado_aviso === 'avisado') {
+          badgeStatus = '🟡 Avisado (Esperando)';
+          borderCard = 'border-blue-200';
+          bgStatusBadge = 'bg-blue-100 text-blue-800 border-blue-200';
+        } else if (p.estado_aviso === 'pagado') {
+          badgeStatus = '💵 Retirado y Pagado';
+          borderCard = 'border-slate-200 opacity-60';
+          bgStatusBadge = 'bg-slate-100 text-slate-700 border-slate-300';
+        } else {
+          badgeStatus = '🔴 Sin Confirmar · Falta Avisar';
+          borderCard = 'border-rose-300 shadow-rose-50 shadow-sm';
+          bgStatusBadge = 'bg-rose-100 text-rose-800 border-rose-300 font-extrabold';
+        }
+
+        const card = document.createElement('div');
+        card.className = \`card-clean p-3.5 space-y-2.5 border \${borderCard} bg-white flex flex-col justify-between\`;
+        card.innerHTML = \`
+          <div class="space-y-2">
+            <!-- Header Cliente -->
+            <div class="flex items-start justify-between gap-1.5">
+              <div>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <h4 class="font-extrabold text-xs md:text-sm text-slate-900">\${p.cliente}</h4>
+                  <span class="text-[10px] font-mono font-bold text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded">#\${p.guia}</span>
+                </div>
+                <div class="text-[11px] text-slate-500 font-mono mt-0.5 flex items-center gap-2">
+                  <span>📱 \${p.telefono}</span>
+                  <a href="tel:\${telClean}" class="text-blue-600 hover:text-blue-800 font-bold font-sans text-[10px]">📞 Llamar</a>
+                </div>
+              </div>
+              <div class="text-right whitespace-nowrap">
+                <span class="text-[10px] px-2 py-0.5 rounded-full font-bold border \${bgStatusBadge}">
+                  \${badgeStatus}
+                </span>
+                <div class="text-xs font-black text-slate-900 font-mono mt-1">
+                  $\${p.recaudo_usd.toFixed(2)} USD
+                </div>
+              </div>
+            </div>
+
+            <!-- Datos de Sede & Combo -->
+            <div class="bg-amber-50/60 p-2.5 rounded-xl border border-amber-200/70 text-[11px] space-y-1">
+              <div class="flex items-start justify-between gap-2">
+                <span class="text-slate-500 font-medium">🏢 Sede Tealca:</span>
+                <span class="text-slate-900 font-bold text-right">\${p.sede}</span>
+              </div>
+              <div class="flex items-start justify-between gap-2">
+                <span class="text-slate-500 font-medium">📦 Producto:</span>
+                <span class="text-slate-800 font-medium text-right">\${p.combo}</span>
+              </div>
+              <div class="flex items-start justify-between gap-2 pt-1 border-t border-amber-200/50">
+                <span class="text-slate-500 font-medium">💵 Recaudo en Bs:</span>
+                <span class="text-emerald-700 font-bold font-mono">Bs \${totalBs}</span>
+              </div>
+            </div>
+
+            <!-- Estado de Comunicación / Nota -->
+            <div class="text-[10px] bg-slate-50 p-2 rounded-lg border border-slate-200 text-slate-600 flex items-center justify-between">
+              <span class="font-medium truncate mr-1">📝 \${p.nota_aviso}</span>
+              <!-- Selector Rápido de Estado -->
+              <select onchange="guardarEstadoOficina('\${p.id}', this.value)" class="text-[10px] font-bold bg-white border border-slate-300 rounded px-1.5 py-0.5 text-slate-800 outline-none">
+                <option value="sin_aviso" \${p.estado_aviso === 'sin_aviso' ? 'selected' : ''}>🔴 Falta Avisar</option>
+                <option value="avisado" \${p.estado_aviso === 'avisado' ? 'selected' : ''}>🟡 Avisado</option>
+                <option value="confirmado_hoy" \${p.estado_aviso === 'confirmado_hoy' ? 'selected' : ''}>🟢 Retira Hoy</option>
+                <option value="reprogramado" \${p.estado_aviso === 'reprogramado' ? 'selected' : ''}>⏳ Reprogramó</option>
+                <option value="pagado" \${p.estado_aviso === 'pagado' ? 'selected' : ''}>✅ Ya Pagó</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Botón de Acción WhatsApp -->
+          <div class="pt-2 border-t border-slate-100 flex items-center justify-between gap-2">
+            <a href="https://wa.me/\${waNum}?text=\${encodeURIComponent(waMsg)}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-1.5 px-3 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-sm shadow-emerald-600/20 active:scale-95">
+              <span>💬</span> Mandar Recordatorio de Retiro
+            </a>
+          </div>
+        \`;
+        cont.appendChild(card);
+      });
+
+      const totalBsOficina = (totalUSD * bcvRate).toLocaleString('es-VE', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      const kpiBsEl = document.getElementById('kpi-oficina-total-bs');
+      if (kpiBsEl) kpiBsEl.textContent = \`💵 Bs ~\${totalBsOficina} a liquidar\`;
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────────
     // 1. CARGAR LEADS POR ATACAR
     // ─────────────────────────────────────────────────────────────────────────────
     async function cargarLeadsPorAtacar() {
@@ -555,15 +813,35 @@ export const htmlDashboard = `<!DOCTYPE html>
     function filtrarLeads(tipo) {
       filtroActivo = tipo;
       
-      ['todos', 'urgente', 'cedula', 'pago', 'dinero'].forEach(f => {
+      ['todos', 'oficina', 'urgente', 'cedula', 'pago', 'dinero'].forEach(f => {
         const btn = document.getElementById(\`flt-\${f}\`);
         if (!btn) return;
         if (f === tipo) {
           btn.className = 'bg-slate-900 text-white px-3 py-1.5 rounded-xl font-bold transition shadow-sm';
         } else {
-          btn.className = 'bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 px-3 py-1.5 rounded-xl font-semibold transition';
+          btn.className = (f === 'oficina')
+            ? 'bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 px-3 py-1.5 rounded-xl transition font-bold flex items-center gap-1 active:scale-95'
+            : 'bg-white hover:bg-slate-50 text-slate-600 border border-slate-200 px-3 py-1.5 rounded-xl font-semibold transition';
         }
       });
+
+      const seccionOficina = document.getElementById('seccion-en-oficina');
+      if (tipo === 'oficina') {
+        if (seccionOficina) {
+          seccionOficina.classList.remove('hidden');
+          seccionOficina.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+        renderizarLeads([]);
+        const cont = document.getElementById('lista-leads-container');
+        cont.innerHTML = \`
+          <div class="col-span-2 text-center py-8 text-amber-800 text-xs card-clean bg-amber-50/60 border-amber-200 font-bold">
+            🏢 Mostrando arriba los 6 paquetes en taquilla Tealca listos para cobro inmediato ($174.35 USD). Haz clic en "Todos" para volver al directorio completo.
+          </div>
+        \`;
+        return;
+      } else {
+        if (seccionOficina) seccionOficina.classList.remove('hidden');
+      }
 
       let filtrados = leadsData;
       if (tipo === 'urgente') {
@@ -955,6 +1233,7 @@ export const htmlDashboard = `<!DOCTYPE html>
 
     function recargarTodo() {
       cargarBCV();
+      inicializarPedidosOficina();
       cargarLeadsPorAtacar();
       cargarPedidos();
       cargarPorMontar();
