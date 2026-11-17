@@ -337,8 +337,8 @@ export default {
       }
     }
 
-    // 2.1 Conexión directa a Supabase Viking en vivo
-    if (path === '/api/supabase-leads') {
+    // 2.1 Conexión directa a Supabase Viking en vivo (BDD Clientes)
+    if (path === '/api/supabase-leads' || path === '/api/clientes-supabase' || path === '/api/clientes') {
       try {
         const resp = await fetch('https://yltjezxhnwmtzuraquhc.supabase.co/rest/v1/gummies_viking_ecomm?select=*&order=id.desc', {
           headers: {

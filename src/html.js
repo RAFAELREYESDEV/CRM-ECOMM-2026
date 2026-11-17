@@ -232,7 +232,12 @@ export const htmlDashboard = `<!DOCTYPE html>
         <span class="bg-slate-100 text-slate-700 text-[11px] px-2 py-0.5 rounded-full font-bold ml-1" id="badge-total-envios">18</span>
       </button>
 
-      <button id="tab-btn-wallet" onclick="cambiarVista('wallet')" class="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 px-4 py-2.5 rounded-xl font-semibold text-xs md:text-sm transition-all flex items-center gap-2 whitespace-nowrap active:scale-95">
+            <button id="tab-btn-clientes" onclick="cambiarVista('clientes')" class="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 px-4 py-2.5 rounded-xl font-semibold text-xs md:text-sm transition-all flex items-center gap-2 whitespace-nowrap active:scale-95">
+        <span>👥</span> Clientes
+        <span class="bg-blue-100 text-blue-800 text-[11px] px-2 py-0.5 rounded-full font-bold ml-1" id="badge-total-clientes">54</span>
+      </button>
+
+      <button id="tab-btn-wallet"  onclick="cambiarVista('wallet')" class="text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 px-4 py-2.5 rounded-xl font-semibold text-xs md:text-sm transition-all flex items-center gap-2 whitespace-nowrap active:scale-95">
         <span>💳</span> Billetera & Retiros
         <span class="bg-emerald-100 text-emerald-800 text-[11px] px-2 py-0.5 rounded-full font-bold ml-1">Live API</span>
       </button>
@@ -502,6 +507,62 @@ export const htmlDashboard = `<!DOCTYPE html>
 
     </section>
 
+  
+    <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+    <!-- VISTA 5: CLIENTES & PROSPECTOS (BASE DE DATOS SUPABASE BDD) -->
+    <!-- ═══════════════════════════════════════════════════════════════════════════ -->
+    <section id="vista-clientes" class="space-y-4 hidden">
+
+      <!-- Header informativo & Métricas rápidas -->
+      <div class="card-clean p-4 md:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <div class="flex items-center gap-2">
+            <h2 class="text-base md:text-lg font-bold text-slate-900 flex items-center gap-2">
+              <span>👥</span> Base de Datos de Clientes & Prospectos
+            </h2>
+            <span class="bg-blue-600 text-white text-[10px] uppercase tracking-wider font-extrabold px-2 py-0.5 rounded-md">Supabase BDD</span>
+          </div>
+          <p class="text-xs text-slate-500 mt-1">
+            Registro histórico íntegro desde <code class="bg-slate-100 px-1 py-0.5 rounded text-blue-700 font-mono">gummies_viking_ecomm</code>. Todos los pedidos registrados desde la landing page web.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 flex-wrap">
+          <div class="px-3 py-1.5 rounded-xl font-bold text-xs bg-blue-50 text-blue-700 border border-blue-200 flex items-center gap-1.5">
+            <span class="w-2 h-2 rounded-full bg-blue-500 animate-pulse"></span>
+            <span id="stat-clientes-count">54 Clientes</span>
+          </div>
+          <div class="px-3 py-1.5 rounded-xl font-bold text-xs bg-emerald-50 text-emerald-700 border border-emerald-200" id="stat-clientes-total-usd">
+            $0.00 USD
+          </div>
+          <button onclick="cargarClientesSupabase(true)" class="btn-clean px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 hover:text-slate-900 flex items-center gap-1.5 active:scale-95 bg-white border border-slate-200 shadow-sm">
+            <span>🔄</span> Refrescar
+          </button>
+        </div>
+      </div>
+
+      <!-- Filtros y Buscador en Vivo -->
+      <div class="card-clean p-3 md:p-4 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+        <div class="relative flex-1">
+          <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">🔍</span>
+          <input type="text" id="busqueda-clientes" oninput="filtrarClientesSupabase()" placeholder="Buscar por cliente, teléfono, ciudad, estado o producto..." class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition">
+        </div>
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 text-xs">
+          <button onclick="setFiltroCliente('todos')" id="filtro-cli-todos" class="px-3 py-1.5 rounded-lg font-bold bg-blue-600 text-white transition whitespace-nowrap">Todos (<span id="badge-filtro-cli-todos">54</span>)</button>
+          <button onclick="setFiltroCliente('cherry')" id="filtro-cli-cherry" class="px-3 py-1.5 rounded-lg font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap">🍒 Con Gel Cherry</button>
+          <button onclick="setFiltroCliente('pote')" id="filtro-cli-pote" class="px-3 py-1.5 rounded-lg font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap">⚡ Pote 30 ($45+)</button>
+          <button onclick="setFiltroCliente('pago_movil')" id="filtro-cli-pago" class="px-3 py-1.5 rounded-lg font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap">💳 Pago Móvil</button>
+        </div>
+      </div>
+
+      <!-- Contenedor dinámico de clientes -->
+      <div id="lista-clientes-supabase" class="space-y-3">
+        <div class="card-clean p-8 text-center text-slate-400">
+          <div class="text-2xl mb-2 animate-bounce">👥</div>
+          Cargando base de datos de clientes desde Supabase...
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- MODAL: YA LO MONTÉ EN DROPANAS -->
@@ -540,6 +601,10 @@ export const htmlDashboard = `<!DOCTYPE html>
       <span class="text-lg">📦</span>
       <span class="text-[10px] font-bold">Envíos</span>
     </button>
+    <button onclick="cambiarVista('clientes')" class="flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition text-slate-600 focus:text-brand-600">
+      <span class="text-lg">👥</span>
+      <span class="text-[10px] font-bold">Clientes</span>
+    </button>
     <button onclick="cambiarVista('wallet')" class="flex flex-col items-center gap-0.5 py-1 px-3 rounded-xl transition text-slate-600 focus:text-brand-600">
       <span class="text-lg">💳</span>
       <span class="text-[10px] font-bold">Billetera</span>
@@ -560,38 +625,46 @@ export const htmlDashboard = `<!DOCTYPE html>
       const vMontar = document.getElementById('vista-montar');
       const vEnvios = document.getElementById('vista-envios');
       const vWallet = document.getElementById('vista-wallet');
+      const vClientes = document.getElementById('vista-clientes');
 
       const bLeads = document.getElementById('tab-btn-leads');
       const bMontar = document.getElementById('tab-btn-montar');
       const bEnvios = document.getElementById('tab-btn-envios');
       const bWallet = document.getElementById('tab-btn-wallet');
+      const bClientes = document.getElementById('tab-btn-clientes');
 
-      vLeads.classList.add('hidden');
-      vMontar.classList.add('hidden');
-      vEnvios.classList.add('hidden');
-      vWallet.classList.add('hidden');
+      if (vLeads) vLeads.classList.add('hidden');
+      if (vMontar) vMontar.classList.add('hidden');
+      if (vEnvios) vEnvios.classList.add('hidden');
+      if (vWallet) vWallet.classList.add('hidden');
+      if (vClientes) vClientes.classList.add('hidden');
 
       const inactiveClass = 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 px-4 py-2.5 rounded-xl font-semibold text-xs md:text-sm transition-all flex items-center gap-2 whitespace-nowrap active:scale-95';
-      bLeads.className = inactiveClass;
-      bMontar.className = inactiveClass;
-      bEnvios.className = inactiveClass;
-      bWallet.className = inactiveClass;
+      if (bLeads) bLeads.className = inactiveClass;
+      if (bMontar) bMontar.className = inactiveClass;
+      if (bEnvios) bEnvios.className = inactiveClass;
+      if (bWallet) bWallet.className = inactiveClass;
+      if (bClientes) bClientes.className = inactiveClass;
 
       const activeClass = 'tab-btn-active px-4 py-2.5 rounded-xl font-bold text-xs md:text-sm transition-all flex items-center gap-2 whitespace-nowrap active:scale-95';
 
       if (vista === 'leads') {
-        vLeads.classList.remove('hidden');
-        bLeads.className = activeClass;
+        if (vLeads) vLeads.classList.remove('hidden');
+        if (bLeads) bLeads.className = activeClass;
       } else if (vista === 'montar') {
-        vMontar.classList.remove('hidden');
-        bMontar.className = activeClass;
+        if (vMontar) vMontar.classList.remove('hidden');
+        if (bMontar) bMontar.className = activeClass;
       } else if (vista === 'envios') {
-        vEnvios.classList.remove('hidden');
-        bEnvios.className = activeClass;
+        if (vEnvios) vEnvios.classList.remove('hidden');
+        if (bEnvios) bEnvios.className = activeClass;
       } else if (vista === 'wallet') {
-        vWallet.classList.remove('hidden');
-        bWallet.className = activeClass;
+        if (vWallet) vWallet.classList.remove('hidden');
+        if (bWallet) bWallet.className = activeClass;
         cargarBilletera();
+      } else if (vista === 'clientes') {
+        if (vClientes) vClientes.classList.remove('hidden');
+        if (bClientes) bClientes.className = activeClass;
+        cargarClientesSupabase();
       }
     }
 
@@ -1318,6 +1391,237 @@ export const htmlDashboard = `<!DOCTYPE html>
       }
     }
 
+    // ─────────────────────────────────────────────────────────────────────────────
+    // 6. BASE DE DATOS DE CLIENTES SUPABASE (PESTAÑA CLIENTES)
+    // ─────────────────────────────────────────────────────────────────────────────
+    let clientesSupabaseData = [];
+    let filtroClienteActivo = 'todos';
+
+    async function cargarClientesSupabase(force = false) {
+      const container = document.getElementById('lista-clientes-supabase');
+      if (clientesSupabaseData.length === 0 || force) {
+        if (container && clientesSupabaseData.length === 0) {
+          container.innerHTML = \`
+            <div class="card-clean p-8 text-center text-slate-400">
+              <div class="animate-spin text-2xl mb-2 inline-block">⏳</div>
+              <p class="text-xs font-semibold">Consultando base de datos Supabase en tiempo real...</p>
+            </div>
+          \`;
+        }
+        try {
+          const res = await fetch(\`\${API}/supabase-leads\`);
+          if (res.ok) {
+            clientesSupabaseData = await res.json();
+          } else {
+            const res2 = await fetch(\`\${API}/clientes-supabase\`);
+            if (res2.ok) clientesSupabaseData = await res2.json();
+          }
+        } catch (e) {
+          console.warn('Error cargando clientes Supabase:', e);
+        }
+      }
+
+      // Actualizar contadores
+      const totalCount = clientesSupabaseData.length;
+      const badgeTotal = document.getElementById('badge-total-clientes');
+      if (badgeTotal) badgeTotal.textContent = totalCount;
+      const statCount = document.getElementById('stat-clientes-count');
+      if (statCount) statCount.textContent = \`\${totalCount} Clientes\`;
+      const badgeFiltroTodos = document.getElementById('badge-filtro-cli-todos');
+      if (badgeFiltroTodos) badgeFiltroTodos.textContent = totalCount;
+
+      const totalUsd = clientesSupabaseData.reduce((acc, c) => acc + (Number(c.total_usd) || 0), 0);
+      const statUsd = document.getElementById('stat-clientes-total-usd');
+      if (statUsd) {
+        statUsd.textContent = \`$\${totalUsd.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} USD Total\`;
+      }
+
+      renderizarClientesSupabase();
+    }
+
+    function setFiltroCliente(filtro) {
+      filtroClienteActivo = filtro;
+      const btns = {
+        'todos': document.getElementById('filtro-cli-todos'),
+        'cherry': document.getElementById('filtro-cli-cherry'),
+        'pote': document.getElementById('filtro-cli-pote'),
+        'pago_movil': document.getElementById('filtro-cli-pago')
+      };
+      for (const [k, b] of Object.entries(btns)) {
+        if (!b) continue;
+        if (k === filtro) {
+          b.className = 'px-3 py-1.5 rounded-lg font-bold bg-blue-600 text-white transition whitespace-nowrap shadow-sm';
+        } else {
+          b.className = 'px-3 py-1.5 rounded-lg font-medium bg-slate-100 text-slate-600 hover:bg-slate-200 transition whitespace-nowrap';
+        }
+      }
+      renderizarClientesSupabase();
+    }
+
+    function filtrarClientesSupabase() {
+      renderizarClientesSupabase();
+    }
+
+    function renderizarClientesSupabase() {
+      const container = document.getElementById('lista-clientes-supabase');
+      if (!container) return;
+
+      const qInput = document.getElementById('busqueda-clientes');
+      const q = qInput ? qInput.value.toLowerCase().trim() : '';
+
+      let lista = clientesSupabaseData.filter(c => {
+        if (filtroClienteActivo === 'cherry') {
+          const hasCherry = c.order_bump_cherry === true || (c.producto_pack && c.producto_pack.toLowerCase().includes('cherry'));
+          if (!hasCherry) return false;
+        } else if (filtroClienteActivo === 'pote') {
+          const isPote = (Number(c.total_usd) >= 45) || (c.producto_pack && c.producto_pack.toLowerCase().includes('pote'));
+          if (!isPote) return false;
+        } else if (filtroClienteActivo === 'pago_movil') {
+          const isPago = c.metodo_pago && c.metodo_pago.toLowerCase().includes('pago');
+          if (!isPago) return false;
+        }
+
+        if (q) {
+          const nombre = (c.nombre || '').toLowerCase();
+          const tel = (c.telefono || '').toLowerCase();
+          const ciudad = (c.ciudad_tealca || '').toLowerCase();
+          const estado = (c.estado || '').toLowerCase();
+          const dir = (c.direccion || '').toLowerCase();
+          const prod = (c.producto_pack || '').toLowerCase();
+          const idStr = String(c.id || '');
+          if (!nombre.includes(q) && !tel.includes(q) && !ciudad.includes(q) && !estado.includes(q) && !dir.includes(q) && !prod.includes(q) && !idStr.includes(q)) {
+            return false;
+          }
+        }
+        return true;
+      });
+
+      if (lista.length === 0) {
+        container.innerHTML = \`
+          <div class="card-clean p-8 text-center text-slate-400">
+            <div class="text-3xl mb-2">🔍</div>
+            <p class="font-bold text-slate-700 text-sm">No se encontraron clientes con esos filtros</p>
+            <p class="text-xs mt-1">Prueba con otro término de búsqueda o cambia la categoría.</p>
+          </div>
+        \`;
+        return;
+      }
+
+      container.innerHTML = lista.map(c => {
+        const id = c.id;
+        const nombre = c.nombre || 'Sin Nombre';
+        const rawTel = String(c.telefono || '').trim();
+        let cleanDigits = rawTel.replace(/[^0-9]/g, '');
+        if (cleanDigits.startsWith('58') && cleanDigits.length > 10) cleanDigits = '0' + cleanDigits.slice(2);
+        else if (!cleanDigits.startsWith('0') && cleanDigits.length === 10) cleanDigits = '0' + cleanDigits;
+        const telFmt = (cleanDigits.length === 11 && cleanDigits.startsWith('0')) ? \`\${cleanDigits.slice(0,4)}-\${cleanDigits.slice(4)}\` : rawTel;
+        const waNumber = cleanDigits.startsWith('0') ? '58' + cleanDigits.slice(1) : cleanDigits;
+
+        const usd = Number(c.total_usd) || 25.0;
+        const bs = (usd * currentBcv).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const pack = c.producto_pack || 'Gummies Viking';
+        const hasCherry = c.order_bump_cherry === true || (c.producto_pack && c.producto_pack.toLowerCase().includes('cherry'));
+        const ubicacion = [c.ciudad_tealca, c.estado].filter(Boolean).join(', ') || c.direccion || 'Ubicación pendiente';
+        const metodoPago = c.metodo_pago ? (c.metodo_pago.includes('pago_movil') ? 'Pago Móvil / Prepagado 💳' : 'Contra Entrega COD 📦') : 'Pago Contra Entrega';
+
+        let fechaStr = '';
+        if (c.created_at) {
+          try {
+            const dt = new Date(c.created_at);
+            fechaStr = dt.toLocaleDateString('es-VE', { day: '2-digit', month: 'short' }) + ' · ' + dt.toLocaleTimeString('es-VE', { hour: '2-digit', minute: '2-digit', hour12: true });
+          } catch(e) {
+            fechaStr = c.created_at.slice(0, 10);
+          }
+        }
+
+        const waMsg = encodeURIComponent(\`¡Hola, \${nombre.split(' ')[0]}! Te saluda el equipo de Gummies Viking 🛡️. Vemos registrado tu pedido en nuestra web de \${pack} por $\${usd.toFixed(2)} USD (Bs \${bs}). ¿Te gustaría que coordinemos el despacho hoy mismo?\`);
+
+        return \`
+          <div class="card-clean p-4 md:p-5 hover:border-blue-300 transition-all">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2 flex-wrap">
+                <span class="bg-blue-100 text-blue-800 text-[11px] font-extrabold px-2.5 py-0.5 rounded-md font-mono">#\${id}</span>
+                <span class="font-bold text-slate-900 text-sm md:text-base">\${nombre}</span>
+                \${fechaStr ? \`<span class="text-[11px] text-slate-400 font-medium">🕒 \${fechaStr}</span>\` : ''}
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-lg text-xs font-bold \${usd >= 45 ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-slate-100 text-slate-800'}">
+                  $\${usd.toFixed(2)} USD <span class="text-[10px] text-slate-500 font-normal">(Bs \${bs})</span>
+                </span>
+                <span class="px-2 py-0.5 rounded text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                  \${c.estado_pedido || 'Registrado'}
+                </span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 my-3 text-xs">
+              <div class="space-y-1">
+                <span class="text-slate-400 font-semibold uppercase tracking-wider text-[10px] block">Contacto</span>
+                <div class="flex items-center gap-2">
+                  <span class="font-mono font-bold text-slate-800 text-sm">\${telFmt}</span>
+                  <a href="https://wa.me/\${waNumber}?text=\${waMsg}" target="_blank" class="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] flex items-center gap-1 transition shadow-sm active:scale-95">
+                    <span>📲</span> WhatsApp
+                  </a>
+                  <a href="tel:\${cleanDigits}" class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-semibold text-[11px] transition">
+                    📞
+                  </a>
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <span class="text-slate-400 font-semibold uppercase tracking-wider text-[10px] block">Destino / Agencia</span>
+                <div class="text-slate-700 font-medium leading-relaxed">
+                  📍 \${ubicacion}
+                  \${c.direccion && c.direccion !== c.ciudad_tealca ? \`<div class="text-slate-500 text-[11px] mt-0.5">\${c.direccion}</div>\` : ''}
+                </div>
+              </div>
+
+              <div class="space-y-1">
+                <span class="text-slate-400 font-semibold uppercase tracking-wider text-[10px] block">Pedido & Método</span>
+                <div class="flex items-center gap-1.5 flex-wrap">
+                  <span class="font-semibold text-slate-900">\${pack}</span>
+                  \${hasCherry ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-pink-100 text-pink-700 border border-pink-200">🍒 + Gel Cherry</span>' : ''}
+                </div>
+                <div class="text-[11px] text-slate-500 mt-0.5">\${metodoPago}</div>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+              <span class="text-[11px] text-slate-400">Origen: Landing Web Gummies Viking (Supabase)</span>
+              <button onclick="copiarDatosClienteSupabase(\${id})" id="btn-copiar-\${id}" class="text-blue-600 hover:text-blue-800 font-semibold text-xs flex items-center gap-1 transition active:scale-95">
+                <span>📋</span> Copiar Ficha de Datos
+              </button>
+            </div>
+          </div>
+        \`;
+      }).join('');
+    }
+
+    function copiarDatosClienteSupabase(id) {
+      const c = clientesSupabaseData.find(item => item.id === id);
+      if (!c) return;
+      const usd = Number(c.total_usd) || 25.0;
+      const bs = (usd * currentBcv).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+      const pack = c.producto_pack || 'Gummies Viking';
+      const hasCherry = c.order_bump_cherry === true ? ' + Gel Cherry' : '';
+      const texto = \`👤 Cliente: \${c.nombre || ''}\\n📞 Teléfono: \${c.telefono || ''}\\n📍 Destino: \${c.ciudad_tealca || ''} (\${c.estado || ''})\\n📌 Dirección: \${c.direccion || ''}\\n📦 Producto: \${pack}\${hasCherry}\\n💵 Total: $\${usd.toFixed(2)} USD (Bs \${bs})\\n💳 Pago: \${c.metodo_pago || 'Contra Entrega'}\`;
+
+      navigator.clipboard.writeText(texto).then(() => {
+        const btn = document.getElementById(\`btn-copiar-\${id}\`);
+        if (btn) {
+          const original = btn.innerHTML;
+          btn.innerHTML = '<span>✅</span> ¡Copiado!';
+          btn.classList.add('text-emerald-600');
+          setTimeout(() => {
+            btn.innerHTML = original;
+            btn.classList.remove('text-emerald-600');
+          }, 2000);
+        }
+      }).catch(err => {
+        alert('Error al copiar: ' + err);
+      });
+    }
+
     function recargarTodo() {
       cargarBCV();
       inicializarPedidosOficina();
@@ -1325,6 +1629,7 @@ export const htmlDashboard = `<!DOCTYPE html>
       cargarPedidos();
       cargarPorMontar();
       cargarSaldoBilleteraLive();
+      cargarClientesSupabase();
     }
 
     // Inicio automático
