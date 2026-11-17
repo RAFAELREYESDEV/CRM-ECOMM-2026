@@ -1,5 +1,6 @@
 import { htmlDashboard } from './html.js';
 import { initialLeads, initialPedidos, initialListos } from './data.js';
+import { SHEET_OBJECTIONS } from './sheet_objections.js';
 
 const DROPANAS_TOKEN = 'live_sk_i9tJdb1OCeZZ3ArVM7YPZhy4FY4lofzPkghmH0gTNJnYUg2RJlgd';
 
@@ -25,6 +26,164 @@ const OFFICIAL_GUIDES = {
   '70816': '85093987',
   '70669': '85090982'
 };
+
+
+function normalizeStr(text) {
+  if (!text) return '';
+  return text.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]/g, '');
+}
+
+function cleanPhoneStr(phone) {
+  if (!phone) return '';
+  let digits = String(phone).replace(/[^0-9]/g, '');
+  if (digits.startsWith('58') && digits.length > 10) {
+    digits = '0' + digits.slice(2);
+  } else if (!digits.startsWith('0') && digits.length === 10) {
+    digits = '0' + digits;
+  }
+  if (digits.length === 11 && digits.startsWith('0')) {
+    return `${digits.slice(0, 4)}-${digits.slice(4)}`;
+  }
+  return String(phone).trim();
+}
+
+async function fetchLiveUnclosedLeads() {
+  // 1. Obtener compradores en Dropanas en tiempo real
+  let dropanasBuyerNames = new Set();
+  let dropanasBuyerPhones = new Set();
+  try {
+    const liveOrders = await fetchDropanasOrdersLive();
+    liveOrders.forEach(o => {
+      const fn = (o.cliente || '').toLowerCase().trim();
+      if (fn) {
+        dropanasBuyerNames.add(normalizeStr(fn));
+        fn.split(/\s+/).forEach(p => {
+          if (p.length > 3) dropanasBuyerNames.add(normalizeStr(p));
+        });
+      }
+      const telDigits = (o.telefono || '').replace(/[^0-9]/g, '');
+      if (telDigits.length >= 7) {
+        dropanasBuyerPhones.add(telDigits.slice(-7));
+      }
+    });
+  } catch (e) {
+    console.warn('Error fetching Dropanas for exclusion:', e);
+  }
+
+  // Lista canónica de compradores ya procesados
+  const knownBuyers = [
+    'carmela', 'galvis', 'galvan', 'salazar', 'romero', 'ramirez', 
+    'medina', 'marchan', 'berrios', 'boscan', 'gregorio', 'munoz', 
+    'elwin', 'herrera', 'hernandez', 'lobo', 'pico', 'balza', 
+    'zambrano', 'mosquera', 'reyes', 'toro', 'pernalete', 'moreno'
+  ];
+
+  // 2. Obtener prospectos web desde Supabase en vivo
+  const sbResp = await fetch('https://yltjezxhnwmtzuraquhc.supabase.co/rest/v1/gummies_viking_ecomm?select=*&order=id.desc', {
+    headers: {
+      'apikey': 'sb_publishable_oNHuXs7lM2VnOzqazVyuNw_tu7RQi97',
+      'Authorization': 'Bearer sb_publishable_oNHuXs7lM2VnOzqazVyuNw_tu7RQi97'
+    }
+  });
+
+  if (!sbResp.ok) throw new Error('Supabase error: ' + sbResp.status);
+  const sbLeads = await sbResp.json();
+
+  const unclosed = [];
+  const seenPhones = new Set();
+  const seenNames = new Set();
+
+  sbLeads.forEach(l => {
+    const rawName = (l.nombre || '').trim();
+    if (!rawName || rawName.toLowerCase().includes('prueba') || rawName.toLowerCase().includes('test')) return;
+
+    const normName = normalizeStr(rawName);
+    const rawPhone = cleanPhoneStr(l.telefono);
+    const digits = rawPhone.replace(/[^0-9]/g, '');
+
+    // Excluir si ya compró en Dropanas
+    let isBuyer = false;
+    if (digits.length >= 7 && dropanasBuyerPhones.has(digits.slice(-7))) isBuyer = true;
+    if (dropanasBuyerNames.has(normName)) isBuyer = true;
+    for (const part of normName.split(/\s+/)) {
+      if (part.length > 3 && dropanasBuyerNames.has(part)) {
+        if (digits.length >= 7 && dropanasBuyerPhones.has(digits.slice(-7))) isBuyer = true;
+      }
+    }
+    for (const kb of knownBuyers) {
+      if (normName.includes(kb)) {
+        if (digits.length >= 7 && dropanasBuyerPhones.has(digits.slice(-7))) {
+          isBuyer = true;
+          break;
+        }
+      }
+    }
+
+    if (normName.includes('freiddy') || normName.includes('carmela') || (normName.includes('victor') && normName.includes('galvan')) || normName.includes('pedro medina') || normName.includes('jorge borges')) {
+      isBuyer = true;
+    }
+
+    if (isBuyer) return;
+
+    // Deduplicar dentro de Supabase
+    const pKey = digits.length >= 7 ? digits.slice(-7) : normName;
+    if (seenPhones.has(pKey) || seenNames.has(normName)) return;
+    if (digits.length >= 7) seenPhones.add(pKey);
+    seenNames.add(normName);
+
+    // Obtener motivo / objeción desde el diccionario de Google Sheet
+    let note = SHEET_OBJECTIONS[pKey] || SHEET_OBJECTIONS[normName] || '';
+    if (!note) {
+      for (const p of normName.split(/\s+/)) {
+        if (p.length > 3 && SHEET_OBJECTIONS[p]) {
+          note = SHEET_OBJECTIONS[p];
+          break;
+        }
+      }
+    }
+    if (!note) {
+      note = l.notas || '🔥 Prospecto web reciente · Falta cédula y confirmar sede Tealca para emitir guía.';
+    }
+
+    // Limpieza de nombre
+    let cleanName = rawName.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');
+    if (normName.includes('pesaida') || normName.includes('betzaida')) cleanName = 'Betzaida Yajuri';
+    if (normName.includes('oswar')) cleanName = 'Oswar Mijares Lanza';
+    if (normName.includes('vitta') || normName.includes('vita')) cleanName = 'José Luis Vitta Álvarez';
+    if (normName.includes('delvis')) cleanName = 'Delvis López (Señor Delvis)';
+    if (normName.includes('deiker') || normName.includes('baker')) cleanName = 'Deiker Parra';
+    if (normName.includes('andres') && normName.includes('perez')) cleanName = 'Andrés Pérez';
+    if (normName.includes('dayaris')) cleanName = 'Dayaris Torrealba';
+    if (normName.includes('anderson')) cleanName = 'Anderson Santaella';
+    if (normName.includes('francisco') && normName.includes('torres')) cleanName = 'Francisco Torres';
+
+    let prioridad = 'ALTA';
+    const monto = parseFloat(l.total_usd) || 25.0;
+    if (monto >= 45 || normName.includes('tovar') || normName.includes('villarreal') || normName.includes('parra')) {
+      prioridad = '🔥 URGENTE / $45+';
+    } else if (normName.includes('dayaris') || normName.includes('anderson') || normName.includes('francisco') || normName.includes('andres')) {
+      prioridad = '⚡ NUEVO LEAD HOY';
+    }
+
+    unclosed.push({
+      id: `LEAD-${String(unclosed.length + 1).padStart(2, '0')}`,
+      supabase_id: l.id,
+      nombre: cleanName,
+      telefono: rawPhone,
+      combo: l.producto_pack || 'Combo 3 Pares (6 Gomitas)',
+      monto_usd: monto,
+      ciudad: l.ciudad_tealca || l.estado || 'Por confirmar',
+      traba: note,
+      prioridad: prioridad,
+      fecha: (l.created_at || '').slice(0, 10),
+      contactado: false
+    });
+  });
+
+  return unclosed;
+}
 
 async function fetchDropanasOrdersLive() {
   const resp = await fetch('https://app.dropanas.com/api/v1/ordenes?per_page=100', {
@@ -160,11 +319,22 @@ export default {
       });
     }
 
-    // 2. Leads que no han comprado todavía (18 prospectos depurados)
+    // 2. Leads que no han comprado todavía (100% EN VIVO: Supabase - Dropanas + Google Sheet)
     if (path === '/api/leads-recuperar') {
-      return new Response(JSON.stringify(initialLeads), {
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      });
+      try {
+        const liveLeads = await fetchLiveUnclosedLeads();
+        return new Response(JSON.stringify(liveLeads), {
+          headers: {
+            ...corsHeaders,
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache, no-store, must-revalidate'
+          }
+        });
+      } catch (e) {
+        return new Response(JSON.stringify(initialLeads), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        });
+      }
     }
 
     // 2.1 Conexión directa a Supabase Viking en vivo
