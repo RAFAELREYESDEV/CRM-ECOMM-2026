@@ -712,8 +712,26 @@ export const initialPedidos = [
 
 export const initialListos = [
   {
+    "id": "listo-freiddy",
+    "nombre": "Freiddy Noé Galvis Rondón",
+    "cedula": "V-19576027",
+    "telefono": "0414-6980276",
+    "ciudad": "Ciudad Ojeda, Zulia",
+    "sede": "Tealca Ciudad Ojeda (8406)",
+    "codigo_sede_tealca": "8406",
+    "combo": "Combo 3 Pares (6 Gomitas Viking)",
+    "combo_key": "combo3",
+    "total_usd": 25.0,
+    "costo_usd": 8.0,
+    "ganancia_usd": 17.0,
+    "notas": "Confirmado en Viking ECOMM. Listo para montar guía oficial en Dropanas martes 17/11.",
+    "tienda": "viking",
+    "timestamp": "2026-11-16T20:30:00Z"
+  },
+  {
     "id": "listo-yorge",
     "nombre": "Yorge Guerrero",
+    "cedula": "V-26815878",
     "cedula": "V-26815878",
     "telefono": "0416-2012895",
     "ciudad": "Socopó, Barinas",
