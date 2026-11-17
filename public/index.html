@@ -189,20 +189,23 @@
         </div>
       </div>
 
-      <!-- Card 4: Pagos Cobrados en Banco (Flujo Real de Caja) -->
-      <div class="card-clean p-4 md:p-5 flex flex-col justify-between border-emerald-200/80 bg-gradient-to-br from-emerald-50/30 to-white">
+      <!-- Card 4: Liquidación en Banco & Saldo Billetera Dropanas -->
+      <div class="card-clean p-4 md:p-5 flex flex-col justify-between border-emerald-200/80 bg-gradient-to-br from-emerald-50/40 via-white to-white">
         <div class="flex items-center justify-between gap-2">
-          <span class="text-[11px] md:text-xs font-bold uppercase tracking-wider text-emerald-700 flex items-center gap-1.5">
+          <span class="text-[11px] md:text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
             <span>🏦</span> Cobrado en Banco
           </span>
           <span class="text-[10px] md:text-xs px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-            Retiro #3835
+            Retiro #3835 🟢
           </span>
         </div>
         <div class="my-2 md:my-3">
           <div class="text-2xl md:text-3xl font-extrabold text-slate-900 font-mono tracking-tight" id="kpi-retiro-val">Bs 11,299.14</div>
-          <div class="text-[11px] text-emerald-700 font-bold mt-0.5 flex items-center gap-1">
-            <span>🟢</span> 1er Pago Liquidado en Cuenta
+          <div class="text-[11px] text-emerald-700 font-bold mt-0.5 flex items-center gap-1.5" id="kpi-billetera-sub">
+            <span>💰</span> <span id="kpi-saldo-disp-val">Bs 26,707.72</span> disponible en Dropanas
+          </div>
+          <div class="text-[10px] text-slate-500 font-semibold mt-0.5 flex items-center gap-1">
+            <span>✅</span> Bs 0,00 en tránsito · 1er pago liquidado en cuenta
           </div>
         </div>
         <div class="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
@@ -275,7 +278,7 @@
       </div>
 
       <!-- SECCIÓN DESTACADA: PEDIDOS EN OFICINA TEALCA (COBRO INMEDIATO) -->
-      <div id="seccion-en-oficina" class="card-clean p-4 md:p-5 border-amber-300 bg-gradient-to-br from-amber-50/60 via-white to-white shadow-sm space-y-3.5">
+      <div id="seccion-en-oficina" class="card-clean p-4 md:p-5 border-amber-300 bg-gradient-to-br from-amber-50/60 via-white to-white shadow-sm space-y-3.5 transition-all duration-300">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-amber-200/60 pb-3">
           <div class="flex items-center gap-2.5">
             <span class="w-9 h-9 rounded-xl bg-amber-500 text-white flex items-center justify-center text-base font-black shadow-sm">🏢</span>
@@ -287,18 +290,26 @@
                 </span>
               </h3>
               <p class="text-xs text-slate-500 mt-0.5">
-                Paquetes listos en taquilla para entregar y cobrar. Revisa a quién le falta avisar y quién ya confirmó para ir hoy.
+                Paquetes en taquilla para cobrar. Revisa a quién le falta avisar y quién ya confirmó para ir hoy.
               </p>
             </div>
           </div>
           <div class="flex items-center gap-2">
             <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-lg border border-emerald-200 whitespace-nowrap" id="kpi-oficina-total-bs">
-              💵 Bs ~158,941 a liquidar
+              💵 Bs ~159,661 a liquidar
             </span>
           </div>
         </div>
 
-        <!-- Grilla de Cards de En Oficina -->
+        <!-- Filtros Rápidos Internos de En Oficina -->
+        <div class="flex items-center gap-1.5 overflow-x-auto pb-1 text-[11px] font-semibold border-b border-amber-200/40 pb-2">
+          <button id="flt-of-todos" onclick="filtrarOficina('todos')" class="bg-amber-900 text-white px-2.5 py-1 rounded-lg font-bold shadow-xs transition">Todos (6)</button>
+          <button id="flt-of-falta" onclick="filtrarOficina('sin_aviso')" class="bg-rose-50 hover:bg-rose-100 text-rose-800 border border-rose-200 px-2.5 py-1 rounded-lg font-semibold transition">🔴 Falta Avisar (4)</button>
+          <button id="flt-of-hoy" onclick="filtrarOficina('confirmado_hoy')" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 px-2.5 py-1 rounded-lg font-semibold transition">🟢 Retira Hoy (1)</button>
+          <button id="flt-of-reprog" onclick="filtrarOficina('reprogramado')" class="bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 px-2.5 py-1 rounded-lg font-semibold transition">⏳ Reprogramó (1)</button>
+          <button id="flt-of-pagado" onclick="filtrarOficina('pagado')" class="bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 px-2.5 py-1 rounded-lg font-semibold transition">✅ Ya Pagó</button>
+        </div>
+
         <div id="lista-en-oficina-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3.5">
           <!-- Renderizado dinámico vía JavaScript -->
         </div>
@@ -511,7 +522,8 @@
   <!-- JAVASCRIPT: LÓGICA 100% INTACTA DE CONEXIÓN A APIS -->
   <script>
     const API = '/api';
-    let currentBcv = 911.62;
+    let currentBcv = 915.75;
+    let bcvRate = 915.75;
     let currentListoSelected = null;
     let leadsData = [];
     let filtroActivo = 'todos';
@@ -560,7 +572,8 @@
       try {
         const res = await fetch(`${API}/bcv`);
         const data = await res.json();
-        currentBcv = Number(data.tasa) || 911.62;
+        currentBcv = Number(data.tasa) || 915.75;
+        bcvRate = currentBcv;
         document.getElementById('bcv-val').textContent = `Bs ${currentBcv.toFixed(2)}`;
       } catch (e) {
         console.warn('Error BCV:', e);
@@ -827,22 +840,16 @@
         }
       });
 
-      const seccionOficina = document.getElementById('seccion-en-oficina');
       if (tipo === 'oficina') {
+        const seccionOficina = document.getElementById('seccion-en-oficina');
         if (seccionOficina) {
-          seccionOficina.classList.remove('hidden');
           seccionOficina.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          seccionOficina.classList.add('ring-2', 'ring-amber-500');
+          setTimeout(() => seccionOficina.classList.remove('ring-2', 'ring-amber-500'), 2000);
         }
-        renderizarLeads([]);
-        const cont = document.getElementById('lista-leads-container');
-        cont.innerHTML = `
-          <div class="col-span-2 text-center py-8 text-amber-800 text-xs card-clean bg-amber-50/60 border-amber-200 font-bold">
-            🏢 Mostrando arriba los 6 paquetes en taquilla Tealca listos para cobro inmediato ($174.35 USD). Haz clic en "Todos" para volver al directorio completo.
-          </div>
-        `;
+        filtrarOficina('todos');
+        renderizarLeads(leadsData);
         return;
-      } else {
-        if (seccionOficina) seccionOficina.classList.remove('hidden');
       }
 
       let filtrados = leadsData;
@@ -1247,12 +1254,31 @@
       }
     }
 
+    
+    async function cargarSaldoBilleteraLive() {
+      try {
+        const res = await fetch(`${API}/wallet`);
+        if (res.ok) {
+          const data = await res.json();
+          const w = data.data || data;
+          if (w && w.available_bs !== undefined) {
+            const bsFmt = Number(w.available_bs).toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            const el = document.getElementById('kpi-saldo-disp-val');
+            if (el) el.textContent = `Bs ${bsFmt}`;
+          }
+        }
+      } catch (e) {
+        console.warn('Error live wallet:', e);
+      }
+    }
+
     function recargarTodo() {
       cargarBCV();
       inicializarPedidosOficina();
       cargarLeadsPorAtacar();
       cargarPedidos();
       cargarPorMontar();
+      cargarSaldoBilleteraLive();
     }
 
     // Inicio automático
